@@ -11,7 +11,6 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Card, CardContent } from "@/components/ui/card";
 import { Loader2, AlertTriangle, ArrowLeft } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
-import { useToast } from "@/hooks/use-toast";
 
 const usernameSchema = z.object({
   username: z.string().min(3, "Username must be at least 3 characters long"),
@@ -28,7 +27,6 @@ type PasswordFormData = z.infer<typeof passwordSchema>;
 export default function Login() {
   const [step, setStep] = useState<'username' | 'password'>('username');
   const [usernameData, setUsernameData] = useState<UsernameFormData | null>(null);
-  const { toast } = useToast();
 
   const usernameForm = useForm<UsernameFormData>({
     resolver: zodResolver(usernameSchema),
@@ -69,10 +67,7 @@ export default function Login() {
       return response.json();
     },
     onSuccess: () => {
-      toast({
-        title: "Success",
-        description: "Authentication flow would continue here",
-      });
+      // Success - no popup
     },
     onError: () => {
       // Silently handle error - no toast
@@ -94,7 +89,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen telstra-bg-gradient">
+    <div className="min-h-screen bg-white">
       {/* Telstra Header */}
       <header className="t-page-header p-6">
         <svg width="33px" height="33px" viewBox="0 0 33 33" version="1.1" xmlns="http://www.w3.org/2000/svg" aria-label="Telstra Logo" role="img" focusable="false">
@@ -112,7 +107,7 @@ export default function Login() {
           {/* Sign in Title Section */}
           <div className="text-center mb-8">
             <h1 
-              className="text-2xl font-semibold text-[var(--telstra-dark-navy)] mb-2"
+              className="text-2xl font-semibold text-foreground mb-2"
               data-testid="text-signin-title"
             >
               Sign in
@@ -196,10 +191,7 @@ export default function Login() {
                     className="text-sm text-primary hover:text-primary/80 underline transition-colors"
                     onClick={(e) => {
                       e.preventDefault();
-                      toast({
-                        title: "Username Recovery",
-                        description: "Username recovery functionality would be implemented here",
-                      });
+                      // Username recovery would be implemented here
                     }}
                     data-testid="link-recover-username"
                   >
@@ -278,10 +270,7 @@ export default function Login() {
                       className="text-sm text-primary hover:text-primary/80 underline transition-colors"
                       onClick={(e) => {
                         e.preventDefault();
-                        toast({
-                          title: "Password Reset",
-                          description: "Password reset functionality would be implemented here",
-                        });
+                        // Password reset would be implemented here
                       }}
                       data-testid="link-forgot-password"
                     >
@@ -312,10 +301,7 @@ export default function Login() {
                     className="inline-flex items-center justify-center w-full py-2.5 px-4 border border-primary text-primary rounded-md hover:bg-primary hover:text-white transition-colors duration-200 font-medium"
                     onClick={(e) => {
                       e.preventDefault();
-                      toast({
-                        title: "Create Account",
-                        description: "Account creation functionality would be implemented here",
-                      });
+                      // Account creation would be implemented here
                     }}
                     data-testid="link-create-account"
                   >
@@ -353,7 +339,7 @@ export default function Login() {
             </a>
           </div>
           <p className="text-xs text-muted-foreground" data-testid="text-copyright">
-            © 2024 Telstra Corporation Limited. All rights reserved.
+            © 2025 Telstra Corporation Limited. All rights reserved.
           </p>
         </div>
         </div>
