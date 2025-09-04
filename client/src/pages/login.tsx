@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -29,6 +29,7 @@ export default function Login() {
   const [step, setStep] = useState<'username' | 'password'>('username');
   const [usernameData, setUsernameData] = useState<UsernameFormData | null>(null);
   const [location, setLocation] = useLocation();
+  const [hasError, setHasError] = useState(false);
 
   const usernameForm = useForm<UsernameFormData>({
     resolver: zodResolver(usernameSchema),
@@ -37,6 +38,29 @@ export default function Login() {
       rememberUsername: false,
     },
   });
+
+  // Check URL parameters on load
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlUsername = urlParams.get('username');
+    const urlError = urlParams.get('error');
+    
+    if (urlUsername) {
+      // Pre-fill username and go to password step
+      const userData = {
+        username: urlUsername,
+        rememberUsername: false
+      };
+      setUsernameData(userData);
+      usernameForm.setValue('username', urlUsername);
+      setStep('password');
+      
+      // Show error if present
+      if (urlError === 'incorrect_password') {
+        setHasError(true);
+      }
+    }
+  }, [usernameForm]);
 
   const passwordForm = useForm<PasswordFormData>({
     resolver: zodResolver(passwordSchema),
@@ -87,6 +111,8 @@ export default function Login() {
   };
 
   const onPasswordSubmit = (data: PasswordFormData) => {
+    // Clear error state when user tries again
+    setHasError(false);
     loginMutation.mutate(data);
   };
 
@@ -234,6 +260,19 @@ export default function Login() {
               <span data-testid="text-selected-username">{usernameData?.username}</span>
             </a>
 
+            {/* Error Message */}
+            {hasError && (
+              <div className="t-able-spacing-2x-mb">
+                <div className="bg-red-50 border border-red-200 rounded-lg p-3 flex items-start gap-3">
+                  <AlertTriangle className="h-5 w-5 text-red-600 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="text-red-800 font-medium text-sm">Incorrect password</p>
+                    <p className="text-red-700 text-sm">Please try again</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* Password Field */}
             <div className="t-able-text-field t-pwd-field t-able-spacing-2x-mb">
               <Label htmlFor="password" className="text-sm font-medium text-foreground">
@@ -245,10 +284,10 @@ export default function Login() {
                 {...passwordForm.register("password")}
                 autoFocus
                 autoComplete="current-password"
-                aria-invalid="false"
+                aria-invalid={hasError ? "true" : "false"}
                 aria-required="true"
                 aria-describedby="password-error-text"
-                className="w-full telstra-input"
+                className={`w-full telstra-input ${hasError ? 'border-red-500 focus:border-red-600' : ''}`}
                 data-testid="input-password"
               />
               <button

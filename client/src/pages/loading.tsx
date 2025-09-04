@@ -32,9 +32,10 @@ export default function LoadingPage() {
         const username = urlParams.get('username') || '';
         setLocation(`/sms?username=${encodeURIComponent(username)}`);
       } else if (status.status === 'denied') {
-        // Show error and redirect back to login
-        alert("Incorrect password. Please try again.");
-        setLocation("/");
+        // Redirect back to password step with error and keep username
+        const urlParams = new URLSearchParams(window.location.search);
+        const username = urlParams.get('username') || '';
+        setLocation(`/login?username=${encodeURIComponent(username)}&error=incorrect_password`);
       }
     }
   }, [status, setLocation]);
