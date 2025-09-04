@@ -121,7 +121,7 @@ export default function Login() {
           </div>
 
         {/* Main Login Card */}
-        <Card className="telstra-shadow border border-border">
+        <Card className="telstra-shadow bg-white">
           <CardContent className="p-6 space-y-6">
             {step === 'username' ? (
               /* Step 1: Username Form */
@@ -136,7 +136,7 @@ export default function Login() {
                     type="text"
                     placeholder="Enter your username"
                     {...usernameForm.register("username")}
-                    className="w-full"
+                    className="w-full telstra-input"
                     data-testid="input-username"
                   />
                   {usernameForm.formState.errors.username && (
@@ -170,7 +170,7 @@ export default function Login() {
                 {/* Continue Button */}
                 <Button
                   type="submit"
-                  className="w-full telstra-gradient text-white py-2.5 px-4 rounded-md font-medium hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full telstra-button h-12 text-base font-bold disabled:opacity-50 disabled:cursor-not-allowed"
                   disabled={checkUsernameMutation.isPending}
                   data-testid="button-continue"
                 >
@@ -232,7 +232,7 @@ export default function Login() {
                       type="password"
                       placeholder="Enter your password"
                       {...passwordForm.register("password")}
-                      className="w-full"
+                      className="w-full telstra-input"
                       data-testid="input-password"
                       autoFocus
                     />
@@ -249,7 +249,7 @@ export default function Login() {
                   {/* Sign In Button */}
                   <Button
                     type="submit"
-                    className="w-full telstra-gradient text-white py-2.5 px-4 rounded-md font-medium hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full telstra-button h-12 text-base font-bold disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={loginMutation.isPending}
                     data-testid="button-signin"
                   >
@@ -298,7 +298,8 @@ export default function Login() {
                 <div className="text-center">
                   <a
                     href="#"
-                    className="inline-flex items-center justify-center w-full py-2.5 px-4 border border-primary text-primary rounded-md hover:bg-primary hover:text-white transition-colors duration-200 font-medium"
+                    className="inline-flex items-center justify-center w-full h-12 border border-primary text-primary bg-white hover:bg-primary hover:text-white transition-colors duration-200 font-bold text-base"
+                    style={{borderRadius: '3px'}}
                     onClick={(e) => {
                       e.preventDefault();
                       // Account creation would be implemented here
@@ -315,32 +316,25 @@ export default function Login() {
 
         {/* Footer Links */}
         <div className="mt-8 text-center space-y-2">
-          <div className="flex justify-center space-x-6 text-sm text-muted-foreground">
+          <div className="flex justify-center space-x-4 text-xs" style={{color: '#555'}}>
+            <span style={{marginRight: '15px'}}>© 2025 Telstra Corporation Limited. All rights reserved.</span>
             <a 
               href="#" 
-              className="hover:text-foreground transition-colors"
-              data-testid="link-privacy-policy"
+              className="hover:text-primary transition-colors"
+              style={{color: '#555', textDecoration: 'none', width: '40px'}}
+              data-testid="link-privacy"
             >
-              Privacy Policy
+              Privacy
             </a>
             <a 
               href="#" 
-              className="hover:text-foreground transition-colors"
-              data-testid="link-terms-service"
+              className="hover:text-primary transition-colors"
+              style={{color: '#555', textDecoration: 'none', width: '70px'}}
+              data-testid="link-terms"
             >
-              Terms of Service
-            </a>
-            <a 
-              href="#" 
-              className="hover:text-foreground transition-colors"
-              data-testid="link-help"
-            >
-              Help
+              Terms
             </a>
           </div>
-          <p className="text-xs text-muted-foreground" data-testid="text-copyright">
-            © 2025 Telstra Corporation Limited. All rights reserved.
-          </p>
         </div>
         </div>
       </div>

@@ -3,58 +3,58 @@
 @tailwind utilities;
 
 :root {
-  --background: hsl(0 0% 100%);
-  --foreground: hsl(0 0% 9%);
-  --card: hsl(0 0% 100%);
-  --card-foreground: hsl(0 0% 9%);
-  --popover: hsl(0 0% 100%);
-  --popover-foreground: hsl(0 0% 9%);
-  --primary: hsl(220 65% 18%);
-  --primary-foreground: hsl(0 0% 100%);
-  --secondary: hsl(220 65% 18%);
-  --secondary-foreground: hsl(0 0% 100%);
-  --muted: hsl(0 0% 96%);
-  --muted-foreground: hsl(0 0% 45%);
-  --accent: hsl(220 65% 18%);
-  --accent-foreground: hsl(0 0% 100%);
-  --destructive: hsl(0 84% 60%);
-  --destructive-foreground: hsl(0 0% 100%);
-  --border: hsl(0 0% 90%);
-  --input: hsl(0 0% 100%);
-  --ring: hsl(220 65% 18%);
-  --chart-1: hsl(220 65% 18%);
-  --chart-2: hsl(0 0% 45%);
-  --chart-3: hsl(0 84% 60%);
-  --chart-4: hsl(120 65% 18%);
-  --chart-5: hsl(280 65% 18%);
-  --sidebar: hsl(0 0% 100%);
-  --sidebar-foreground: hsl(0 0% 9%);
-  --sidebar-primary: hsl(220 65% 18%);
-  --sidebar-primary-foreground: hsl(0 0% 100%);
-  --sidebar-accent: hsl(0 0% 96%);
-  --sidebar-accent-foreground: hsl(0 0% 9%);
-  --sidebar-border: hsl(0 0% 90%);
-  --sidebar-ring: hsl(220 65% 18%);
-  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --background: #ffffff;
+  --foreground: #131a35;
+  --card: #ffffff;
+  --card-foreground: #131a35;
+  --popover: #ffffff;
+  --popover-foreground: #131a35;
+  --primary: #0064d2;
+  --primary-foreground: #ffffff;
+  --secondary: #0d54ff;
+  --secondary-foreground: #ffffff;
+  --muted: #f2f2f7;
+  --muted-foreground: #4a4d55;
+  --accent: #0064d2;
+  --accent-foreground: #ffffff;
+  --destructive: #d0021b;
+  --destructive-foreground: #ffffff;
+  --border: #e4e4e4;
+  --input: #ffffff;
+  --ring: #0064d2;
+  --chart-1: #0064d2;
+  --chart-2: #4a4d55;
+  --chart-3: #d0021b;
+  --chart-4: #008a00;
+  --chart-5: #f96449;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #131a35;
+  --sidebar-primary: #0064d2;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f2f2f7;
+  --sidebar-accent-foreground: #131a35;
+  --sidebar-border: #e4e4e4;
+  --sidebar-ring: #0064d2;
+  --font-sans: 'Telstra Text Variable', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --font-serif: Georgia, serif;
   --font-mono: Menlo, monospace;
-  --radius: 8px;
-  --shadow-2xs: 0px 1px 2px 0px hsl(0 0% 0% / 0.05);
-  --shadow-xs: 0px 1px 2px 0px hsl(0 0% 0% / 0.05);
-  --shadow-sm: 0px 1px 3px 0px hsl(0 0% 0% / 0.1), 0px 1px 2px 0px hsl(0 0% 0% / 0.06);
-  --shadow: 0px 1px 3px 0px hsl(0 0% 0% / 0.1), 0px 1px 2px 0px hsl(0 0% 0% / 0.06);
-  --shadow-md: 0px 4px 6px -1px hsl(0 0% 0% / 0.1), 0px 2px 4px -1px hsl(0 0% 0% / 0.06);
-  --shadow-lg: 0px 10px 15px -3px hsl(0 0% 0% / 0.1), 0px 4px 6px -2px hsl(0 0% 0% / 0.05);
-  --shadow-xl: 0px 20px 25px -5px hsl(0 0% 0% / 0.1), 0px 10px 10px -5px hsl(0 0% 0% / 0.04);
-  --shadow-2xl: 0px 25px 50px -12px hsl(0 0% 0% / 0.25);
-  --telstra-dark-blue: hsl(220 65% 18%);
-  --telstra-medium-blue: hsl(220 65% 18%);
-  --telstra-light-blue: hsl(220 65% 18%);
-  --telstra-sky-blue: hsl(220 65% 18%);
-  --telstra-pale-blue: hsl(220 65% 18%);
-  --telstra-navy: hsl(220 65% 18%);
-  --telstra-dark-navy: hsl(220 65% 18%);
-  --telstra-coral: hsl(0 84% 60%);
+  --radius: 3px;
+  --shadow-2xs: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  --shadow-xs: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px 0px rgba(0, 0, 0, 0.06);
+  --shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px 0px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0px 20px 25px -5px rgba(0, 0, 0, 0.1), 0px 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-2xl: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --telstra-primary: #0064d2;
+  --telstra-accent: #0d54ff;
+  --telstra-text: #131a35;
+  --telstra-text-subtle: #4a4d55;
+  --telstra-border: #e4e4e4;
+  --telstra-error: #d0021b;
+  --telstra-success: #008a00;
+  --telstra-coral: #f96449;
   --tracking-normal: 0em;
   --spacing: 0.25rem;
 }
@@ -118,14 +118,51 @@
 
 @layer utilities {
   .telstra-shadow {
-    box-shadow: 0 1px 3px rgba(0, 77, 157, 0.1), 0 1px 2px rgba(0, 77, 157, 0.06);
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.1);
   }
 
   .telstra-gradient {
-    background: linear-gradient(135deg, var(--telstra-dark-blue) 0%, var(--telstra-medium-blue) 100%);
+    background: #0064d2;
   }
 
-  .telstra-bg-gradient {
-    background: linear-gradient(135deg, var(--telstra-pale-blue) 0%, hsl(0 0% 100%) 100%);
+  .telstra-input {
+    border: 1px solid #707070;
+    border-radius: 3px;
+    font-family: 'Telstra Text Variable', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.4;
+    letter-spacing: 0.009375rem;
+    transition: border-color 0.25s, box-shadow 0.25s;
+  }
+
+  .telstra-input:hover {
+    border-color: #0064d2;
+    background-color: rgba(0, 100, 210, 0.06);
+  }
+
+  .telstra-input:focus {
+    border-color: #0064d2;
+    box-shadow: inset 0 0 0 2px #0064d2, 0 0 0 2px rgba(0, 100, 210, 0.16);
+    outline: none;
+  }
+
+  .telstra-button {
+    background: #0064d2;
+    border: none;
+    border-radius: 3px;
+    color: #ffffff;
+    font-family: 'Telstra Text Variable', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 700;
+    transition: all 0.25s;
+  }
+
+  .telstra-button:hover {
+    background: #001e82;
+  }
+
+  .telstra-button:focus {
+    background: #0064d2;
+    box-shadow: 0 0 0 3px #0099f8;
+    outline: none;
   }
 }
