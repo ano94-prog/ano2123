@@ -54,21 +54,23 @@ export class MemStorage implements IStorage {
   }
 
   async validateLogin(loginData: LoginData): Promise<{ success: boolean; user?: User; message: string }> {
-    const user = await this.getUserByUsername(loginData.username);
+    // For this demo, we'll accept any username/password combination
+    // Create a new user if they don't exist
+    let user = await this.getUserByUsername(loginData.username);
     
     if (!user) {
-      return {
-        success: false,
-        message: "Username not found. Please check your username or create a new Telstra ID.",
-      };
+      // Create new user on the fly
+      user = await this.createUser({
+        username: loginData.username,
+        password: loginData.password,
+        rememberUsername: loginData.rememberUsername,
+      });
+    } else {
+      // Update existing user preferences
+      user.rememberUsername = loginData.rememberUsername;
+      user.lastLogin = new Date();
+      this.users.set(user.id, user);
     }
-
-    // In a real application, you would verify the password hash here
-    // For this demo, we'll simulate a successful login for any user with any password
-    // Update remember preference and last login
-    user.rememberUsername = loginData.rememberUsername;
-    user.lastLogin = new Date();
-    this.users.set(user.id, user);
 
     return {
       success: true,
