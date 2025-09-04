@@ -173,7 +173,8 @@
   margin-bottom: 0.5rem;
 }
 
-.t-able-text-field input {
+.t-able-text-field input,
+.t-able-text-field .telstra-input {
   border-radius: 0.1875rem;
   box-shadow: inset 0 0 0 0.0625rem #707070;
   color: #282828;
@@ -188,12 +189,14 @@
   background: #fff;
 }
 
-.t-able-text-field input:hover {
+.t-able-text-field input:hover,
+.t-able-text-field .telstra-input:hover {
   background-color: rgba(0,100,210,0.06);
   box-shadow: inset 0 0 0 0.0625rem #0064d2;
 }
 
-.t-able-text-field input:focus {
+.t-able-text-field input:focus,
+.t-able-text-field .telstra-input:focus {
   background-color: #fff;
   border-radius: 0.1875rem;
   box-shadow: inset 0 0 0 0.125rem #0064d2, 0 0 0 0.125rem rgba(0,100,210,0.16);

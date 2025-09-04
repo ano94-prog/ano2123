@@ -231,8 +231,10 @@ export default function Login() {
 
             {/* Password Field */}
             <div className="t-able-text-field t-pwd-field t-able-spacing-2x-mb">
-              <label htmlFor="password">Password</label>
-              <input
+              <Label htmlFor="password" className="text-sm font-medium text-foreground">
+                Password
+              </Label>
+              <Input
                 id="password"
                 type="password"
                 {...passwordForm.register("password")}
@@ -241,6 +243,7 @@ export default function Login() {
                 aria-invalid="false"
                 aria-required="true"
                 aria-describedby="password-error-text"
+                className="w-full telstra-input"
                 data-testid="input-password"
               />
               <button
