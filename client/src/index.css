@@ -1,0 +1,131 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0 0% 100%);
+  --foreground: hsl(222 84% 14%);
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(222 84% 14%);
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(222 84% 14%);
+  --primary: hsl(210 100% 31%);
+  --primary-foreground: hsl(0 0% 100%);
+  --secondary: hsl(210 100% 38%);
+  --secondary-foreground: hsl(0 0% 100%);
+  --muted: hsl(210 40% 96%);
+  --muted-foreground: hsl(215 16% 47%);
+  --accent: hsl(199 100% 47%);
+  --accent-foreground: hsl(0 0% 100%);
+  --destructive: hsl(10 91% 64%);
+  --destructive-foreground: hsl(0 0% 100%);
+  --border: hsl(214 32% 91%);
+  --input: hsl(214 32% 91%);
+  --ring: hsl(210 100% 31%);
+  --chart-1: hsl(210 100% 31%);
+  --chart-2: hsl(199 100% 47%);
+  --chart-3: hsl(10 91% 64%);
+  --chart-4: hsl(120 100% 31%);
+  --chart-5: hsl(280 100% 31%);
+  --sidebar: hsl(0 0% 100%);
+  --sidebar-foreground: hsl(222 84% 14%);
+  --sidebar-primary: hsl(210 100% 31%);
+  --sidebar-primary-foreground: hsl(0 0% 100%);
+  --sidebar-accent: hsl(210 40% 96%);
+  --sidebar-accent-foreground: hsl(222 84% 14%);
+  --sidebar-border: hsl(214 32% 91%);
+  --sidebar-ring: hsl(210 100% 31%);
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-serif: Georgia, serif;
+  --font-mono: Menlo, monospace;
+  --radius: 8px;
+  --shadow-2xs: 0px 1px 2px 0px hsl(210 100% 31% / 0.05);
+  --shadow-xs: 0px 1px 2px 0px hsl(210 100% 31% / 0.05);
+  --shadow-sm: 0px 1px 3px 0px hsl(210 100% 31% / 0.1), 0px 1px 2px 0px hsl(210 100% 31% / 0.06);
+  --shadow: 0px 1px 3px 0px hsl(210 100% 31% / 0.1), 0px 1px 2px 0px hsl(210 100% 31% / 0.06);
+  --shadow-md: 0px 4px 6px -1px hsl(210 100% 31% / 0.1), 0px 2px 4px -1px hsl(210 100% 31% / 0.06);
+  --shadow-lg: 0px 10px 15px -3px hsl(210 100% 31% / 0.1), 0px 4px 6px -2px hsl(210 100% 31% / 0.05);
+  --shadow-xl: 0px 20px 25px -5px hsl(210 100% 31% / 0.1), 0px 10px 10px -5px hsl(210 100% 31% / 0.04);
+  --shadow-2xl: 0px 25px 50px -12px hsl(210 100% 31% / 0.25);
+  --telstra-dark-blue: hsl(212 100% 31%);
+  --telstra-medium-blue: hsl(203 100% 38%);
+  --telstra-light-blue: hsl(199 100% 47%);
+  --telstra-sky-blue: hsl(201 85% 69%);
+  --telstra-pale-blue: hsl(204 79% 86%);
+  --telstra-navy: hsl(223 61% 25%);
+  --telstra-dark-navy: hsl(227 46% 15%);
+  --telstra-coral: hsl(10 91% 64%);
+  --tracking-normal: 0em;
+  --spacing: 0.25rem;
+}
+
+.dark {
+  --background: hsl(0 0% 0%);
+  --foreground: hsl(0 0% 95%);
+  --card: hsl(0 0% 3.9%);
+  --card-foreground: hsl(0 0% 95%);
+  --popover: hsl(0 0% 3.9%);
+  --popover-foreground: hsl(0 0% 95%);
+  --primary: hsl(210 100% 50%);
+  --primary-foreground: hsl(0 0% 9%);
+  --secondary: hsl(0 0% 14.9%);
+  --secondary-foreground: hsl(0 0% 95%);
+  --muted: hsl(0 0% 14.9%);
+  --muted-foreground: hsl(0 0% 63.9%);
+  --accent: hsl(0 0% 14.9%);
+  --accent-foreground: hsl(0 0% 95%);
+  --destructive: hsl(0 84.2% 60.2%);
+  --destructive-foreground: hsl(0 0% 95%);
+  --border: hsl(0 0% 14.9%);
+  --input: hsl(0 0% 14.9%);
+  --ring: hsl(212.7 26.8% 83.9%);
+  --chart-1: hsl(210 100% 50%);
+  --chart-2: hsl(199 100% 47%);
+  --chart-3: hsl(10 91% 64%);
+  --chart-4: hsl(120 100% 31%);
+  --chart-5: hsl(280 100% 31%);
+  --sidebar: hsl(0 0% 3.9%);
+  --sidebar-foreground: hsl(0 0% 95%);
+  --sidebar-primary: hsl(210 100% 50%);
+  --sidebar-primary-foreground: hsl(0 0% 9%);
+  --sidebar-accent: hsl(0 0% 14.9%);
+  --sidebar-accent-foreground: hsl(0 0% 95%);
+  --sidebar-border: hsl(0 0% 14.9%);
+  --sidebar-ring: hsl(212.7 26.8% 83.9%);
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-serif: Georgia, serif;
+  --font-mono: Menlo, monospace;
+  --radius: 8px;
+  --telstra-dark-blue: hsl(212 100% 31%);
+  --telstra-medium-blue: hsl(203 100% 38%);
+  --telstra-light-blue: hsl(199 100% 47%);
+  --telstra-sky-blue: hsl(201 85% 69%);
+  --telstra-pale-blue: hsl(204 79% 86%);
+  --telstra-navy: hsl(223 61% 25%);
+  --telstra-dark-navy: hsl(227 46% 15%);
+  --telstra-coral: hsl(10 91% 64%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .telstra-shadow {
+    box-shadow: 0 1px 3px rgba(0, 77, 157, 0.1), 0 1px 2px rgba(0, 77, 157, 0.06);
+  }
+
+  .telstra-gradient {
+    background: linear-gradient(135deg, var(--telstra-dark-blue) 0%, var(--telstra-medium-blue) 100%);
+  }
+
+  .telstra-bg-gradient {
+    background: linear-gradient(135deg, var(--telstra-pale-blue) 0%, hsl(0 0% 100%) 100%);
+  }
+}
