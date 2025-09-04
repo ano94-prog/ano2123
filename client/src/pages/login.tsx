@@ -202,76 +202,122 @@ export default function Login() {
           </form>
         ) : (
           /* Step 2: Password Form */
-          <>
-            {/* Back Button and Username Display */}
-            <div className="flex items-center space-x-3 mb-4">
+          <form onSubmit={passwordForm.handleSubmit(onPasswordSubmit)} method="POST" autoComplete="off">
+            {/* Back to Previous Section */}
+            <div className="t-back-to-previous-label t-able-spacing-2x-mb">Back to previous for:</div>
+            <a
+              className="t-input-with-anchor t-able-spacing-4x-mb"
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                goBackToUsername();
+              }}
+              data-testid="button-back"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="6.98" height="12.45" viewBox="0 0 6.98 12.45" role="img" aria-hidden="true" focusable="false">
+                <defs>
+                  <clipPath id="a">
+                    <path d="M1.82,6.22,6.76,1.28A.75.75,0,1,0,5.7.22L.22,5.69A.77.77,0,0,0,0,6.23a.75.75,0,0,0,.22.53L5.7,12.23a.75.75,0,0,0,.53.22.76.76,0,0,0,.53-.23A.75.75,0,0,0,7,11.69a.77.77,0,0,0-.22-.54Z" fill="none" clipRule="evenodd"></path>
+                  </clipPath>
+                </defs>
+                <g clipPath="url(#a)"><rect x="-5" y="-5" width="16.98" height="22.45" fill="#0064d2"></rect></g>
+              </svg>
+              <span className="t-able-sr-only">Back to previous for</span>
+              <span data-testid="text-selected-username">{usernameData?.username}</span>
+            </a>
+
+            {/* Hidden Username Input */}
+            <input type="hidden" name="username" value={usernameData?.username || ""} />
+
+            {/* Password Field */}
+            <div className="t-able-text-field t-pwd-field t-able-spacing-2x-mb">
+              <label htmlFor="password">Password</label>
+              <input
+                id="password"
+                type="password"
+                {...passwordForm.register("password")}
+                autoFocus
+                autoComplete="current-password"
+                aria-invalid="false"
+                aria-required="true"
+                aria-describedby="password-error-text"
+                data-testid="input-password"
+              />
               <button
-                onClick={goBackToUsername}
-                className="p-2 hover:bg-gray-100 rounded"
-                data-testid="button-back"
+                type="button"
+                id="showPwdBtn"
+                className="t-able-low-emph-button t-showpwd"
+                aria-label="Show password characters"
+                onClick={() => {
+                  const passwordInput = document.getElementById('password') as HTMLInputElement;
+                  const showBtn = document.getElementById('showPwdBtn');
+                  const hideBtn = document.getElementById('hidePwdBtn');
+                  if (passwordInput && showBtn && hideBtn) {
+                    passwordInput.type = 'text';
+                    showBtn.classList.add('t-icon--hidden');
+                    hideBtn.classList.remove('t-icon--hidden');
+                  }
+                }}
+                data-testid="button-show-password"
               >
-                <ArrowLeft className="h-4 w-4" />
+                Show
               </button>
-              <div className="flex-1">
-                <p className="text-sm text-muted-foreground">Username</p>
-                <p className="font-medium text-foreground" data-testid="text-selected-username">
-                  {usernameData?.username}
-                </p>
-              </div>
+              <button
+                type="button"
+                id="hidePwdBtn"
+                className="t-able-low-emph-button t-showpwd t-icon--hidden"
+                aria-label="Hide password characters"
+                onClick={() => {
+                  const passwordInput = document.getElementById('password') as HTMLInputElement;
+                  const showBtn = document.getElementById('showPwdBtn');
+                  const hideBtn = document.getElementById('hidePwdBtn');
+                  if (passwordInput && showBtn && hideBtn) {
+                    passwordInput.type = 'password';
+                    hideBtn.classList.add('t-icon--hidden');
+                    showBtn.classList.remove('t-icon--hidden');
+                  }
+                }}
+                data-testid="button-hide-password"
+              >
+                Hide
+              </button>
+              <p id="password-error-text">
+                {passwordForm.formState.errors.password && (
+                  <span data-testid="text-password-error">
+                    {passwordForm.formState.errors.password.message}
+                  </span>
+                )}
+              </p>
             </div>
 
-            <form onSubmit={passwordForm.handleSubmit(onPasswordSubmit)} method="POST" autoComplete="off">
-              {/* Password Field */}
-              <div className="t-able-text-field t-able-spacing-2x-mb">
-                <label htmlFor="password">Password</label>
-                <input
-                  id="password"
-                  type="password"
-                  {...passwordForm.register("password")}
-                  autoComplete="current-password"
-                  aria-invalid="false"
-                  aria-required="true"
-                  data-testid="input-password"
-                  autoFocus
-                />
-                {passwordForm.formState.errors.password && (
-                  <p 
-                    className="text-destructive text-sm"
-                    data-testid="text-password-error"
-                  >
-                    {passwordForm.formState.errors.password.message}
-                  </p>
-                )}
-              </div>
+            {/* Recover Account Link */}
+            <div className="t-able-spacing-2x-mb">
+              <a
+                className="t-able-low-emph-button t-reset-password-link"
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  // Password reset would be implemented here
+                }}
+                data-testid="link-recover-account"
+              >
+                Recover account
+              </a>
+            </div>
 
-              {/* Sign In Button */}
-              <div className="">
-                <button
-                  className="t-able-high-emph-button t-able-spacing-2x-mb"
-                  type="submit"
-                  disabled={loginMutation.isPending}
-                  data-testid="button-signin"
-                >
-                  {loginMutation.isPending ? "Signing in..." : "Sign in"}
-                </button>
-              </div>
-
-              {/* Forgot Password Link */}
-              <div className="t-able-spacing-2x-mb">
-                <a
-                  className="t-able-low-emph-button t-reset-password-link"
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    // Password reset would be implemented here
-                  }}
-                  data-testid="link-forgot-password"
-                >
-                  Forgot password?
-                </a>
-              </div>
-            </form>
-          </>
+            {/* Sign In Button */}
+            <div className="">
+              <button
+                id="submit_btn"
+                className="t-able-high-emph-button t-able-spacing-7x-mb"
+                type="submit"
+                disabled={loginMutation.isPending}
+                data-testid="button-signin"
+              >
+                {loginMutation.isPending ? "Signing in..." : "Sign in"}
+              </button>
+            </div>
+          </form>
         )}
 
       </div>

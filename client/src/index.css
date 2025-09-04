@@ -367,3 +367,73 @@
   text-decoration: none;
   width: 70px;
 }
+
+/* Additional password page styles */
+.t-back-to-previous-label {
+  color: #4a4d55;
+  font: 400 14px/17px 'Telstra Text Variable', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  margin-bottom: 0.5rem;
+}
+
+.t-input-with-anchor {
+  align-items: center;
+  color: #0064d2;
+  cursor: pointer;
+  display: flex;
+  font: 400 16px/19px 'Telstra Text Variable', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  text-decoration: none;
+  transition: color 0.25s;
+}
+
+.t-input-with-anchor:hover {
+  color: #001e82;
+}
+
+.t-input-with-anchor svg {
+  margin-right: 0.5rem;
+}
+
+.t-input-with-anchor span:last-child {
+  font-weight: 600;
+}
+
+.t-able-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.t-pwd-field {
+  position: relative;
+}
+
+.t-showpwd {
+  position: absolute;
+  right: 1rem;
+  top: 2.5rem;
+  background: transparent;
+  border: none;
+  color: #0064d2;
+  cursor: pointer;
+  font: 400 14px/17px 'Telstra Text Variable', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.t-showpwd:hover {
+  color: #001e82;
+}
+
+.t-icon--hidden {
+  display: none !important;
+}
+
+.t-able-spacing-4x-mb {
+  margin-bottom: 4rem;
+}
