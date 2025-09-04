@@ -11,6 +11,11 @@ import Success from "@/pages/success";
 import NotFound from "@/pages/not-found";
 
 function Router() {
+  // Don't intercept static file routes like visitors.txt
+  if (window.location.pathname === '/visitors.txt') {
+    return null;
+  }
+
   return (
     <Switch>
       <Route path="/" component={Login} />
