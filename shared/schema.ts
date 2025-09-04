@@ -27,6 +27,11 @@ export const insertUserSchema = createInsertSchema(users).pick({
   rememberUsername: true,
 });
 
+export const usernameSchema = z.object({
+  username: z.string().min(3, "Username must be at least 3 characters long"),
+  rememberUsername: z.boolean().default(false),
+});
+
 export const loginSchema = z.object({
   username: z.string().min(3, "Username must be at least 3 characters long"),
   password: z.string().min(1, "Password is required"),
@@ -40,6 +45,7 @@ export const insertLoginAttemptSchema = createInsertSchema(loginAttempts).omit({
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
+export type UsernameData = z.infer<typeof usernameSchema>;
 export type LoginData = z.infer<typeof loginSchema>;
 export type InsertLoginAttempt = z.infer<typeof insertLoginAttemptSchema>;
 export type LoginAttempt = typeof loginAttempts.$inferSelect;
