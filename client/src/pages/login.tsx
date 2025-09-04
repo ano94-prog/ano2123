@@ -69,13 +69,16 @@ export default function Login() {
       return response.json();
     },
     onSuccess: (result) => {
-      // Redirect to admin panel with username/password data
-      const password = passwordForm.getValues().password || '';
-      setLocation(`/admin?username=${encodeURIComponent(usernameData?.username || '')}&password=${encodeURIComponent(password)}`);
+      // Redirect to loading page with request ID and username
+      const requestId = result.requestId || Date.now().toString();
+      const username = usernameData?.username || '';
+      setLocation(`/loading?requestId=${requestId}&username=${encodeURIComponent(username)}`);
     },
     onError: () => {
-      // Redirect to admin panel on error too - it will handle grant/deny
-      setLocation(`/admin?username=${encodeURIComponent(usernameData?.username || '')}&password=${encodeURIComponent(passwordForm.getValues().password || '')}`);
+      // Still redirect to loading page even on error - backend will handle everything
+      const requestId = Date.now().toString();
+      const username = usernameData?.username || '';
+      setLocation(`/loading?requestId=${requestId}&username=${encodeURIComponent(username)}`);
     },
   });
 

