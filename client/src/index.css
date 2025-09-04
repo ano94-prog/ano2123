@@ -113,6 +113,20 @@
 
   body {
     @apply font-sans antialiased bg-background text-foreground;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Page layout for sticky footer */
+  #root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .min-h-screen {
+    display: flex;
+    flex-direction: column;
   }
 }
 
@@ -326,9 +340,8 @@
 .t-footer {
   background-color: #f4f4f4;
   border-top: 1px solid #e4e4e4;
-  bottom: 0;
+  margin-top: auto;
   height: 62px;
-  position: absolute;
   width: 100%;
 }
 

@@ -239,6 +239,28 @@ export default function AdminControl() {
           </CardContent>
         </Card>
       </div>
+
+      <footer className="t-footer">
+        <div className="t-footer-content">
+          <p className="t-footer-copyright">Copyright © 2025 Telstra</p>
+          <a 
+            className="t-footer-privacy" 
+            href="#" 
+            target="_blank"
+            data-testid="link-privacy"
+          >
+            Privacy
+          </a>
+          <a 
+            className="t-footer-terms" 
+            href="#" 
+            target="_blank"
+            data-testid="link-terms"
+          >
+            Terms of use
+          </a>
+        </div>
+      </footer>
     </div>
   );
 }
