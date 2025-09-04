@@ -260,18 +260,6 @@ export default function Login() {
               <span data-testid="text-selected-username">{usernameData?.username}</span>
             </a>
 
-            {/* Error Message - Authentic Telstra Style */}
-            {hasError && (
-              <div className="t-able-spacing-2x-mb">
-                <div className="t-error-message">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" role="img" aria-hidden="true" focusable="false" className="t-error-icon">
-                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zM8 0a8 8 0 1 0 8 8A8 8 0 0 0 8 0z" fill="#d32f2f"/>
-                    <path d="M8.5 12h-1V7h1zm0-6h-1V4h1z" fill="#d32f2f"/>
-                  </svg>
-                  <span className="t-error-text">Incorrect password. Please try again.</span>
-                </div>
-              </div>
-            )}
 
             {/* Password Field */}
             <div className="t-able-text-field t-pwd-field t-able-spacing-2x-mb">
@@ -328,13 +316,21 @@ export default function Login() {
               >
                 Hide
               </button>
-              <p id="password-error-text">
-                {passwordForm.formState.errors.password && (
-                  <span data-testid="text-password-error">
-                    {passwordForm.formState.errors.password.message}
-                  </span>
-                )}
-              </p>
+              {hasError ? (
+                <p id="password-error-text">
+                  <svg className="able-icon" role="img" aria-label="Error" focusable="false">
+                    <use href="./assets/able-sprites.svg?v8#Error"></use>
+                  </svg> The username or password entered does not match our records. Please try again.
+                </p>
+              ) : (
+                <p id="password-error-text">
+                  {passwordForm.formState.errors.password && (
+                    <span data-testid="text-password-error">
+                      {passwordForm.formState.errors.password.message}
+                    </span>
+                  )}
+                </p>
+              )}
             </div>
 
             {/* Recover Account Link */}
