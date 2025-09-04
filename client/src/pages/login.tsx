@@ -226,9 +226,6 @@ export default function Login() {
               <span data-testid="text-selected-username">{usernameData?.username}</span>
             </a>
 
-            {/* Hidden Username Input */}
-            <input type="hidden" name="username" value={usernameData?.username || ""} />
-
             {/* Password Field */}
             <div className="t-able-text-field t-pwd-field t-able-spacing-2x-mb">
               <Label htmlFor="password" className="text-sm font-medium text-foreground">
