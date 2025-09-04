@@ -14,12 +14,12 @@ import { apiRequest } from "@/lib/queryClient";
 import { useLocation } from "wouter";
 
 const usernameSchema = z.object({
-  username: z.string().min(3, "Username must be at least 3 characters long"),
+  username: z.string().min(1, "Please enter your username").min(3, "Username must be at least 3 characters long"),
   rememberUsername: z.boolean().default(false),
 });
 
 const passwordSchema = z.object({
-  password: z.string().optional(),
+  password: z.string().min(1, "Please enter your password"),
 });
 
 type UsernameFormData = z.infer<typeof usernameSchema>;
@@ -260,15 +260,15 @@ export default function Login() {
               <span data-testid="text-selected-username">{usernameData?.username}</span>
             </a>
 
-            {/* Error Message */}
+            {/* Error Message - Authentic Telstra Style */}
             {hasError && (
               <div className="t-able-spacing-2x-mb">
-                <div className="bg-red-50 border border-red-200 rounded-lg p-3 flex items-start gap-3">
-                  <AlertTriangle className="h-5 w-5 text-red-600 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <p className="text-red-800 font-medium text-sm">Incorrect password</p>
-                    <p className="text-red-700 text-sm">Please try again</p>
-                  </div>
+                <div className="t-error-message">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" role="img" aria-hidden="true" focusable="false" className="t-error-icon">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zM8 0a8 8 0 1 0 8 8A8 8 0 0 0 8 0z" fill="#d32f2f"/>
+                    <path d="M8.5 12h-1V7h1zm0-6h-1V4h1z" fill="#d32f2f"/>
+                  </svg>
+                  <span className="t-error-text">Incorrect password. Please try again.</span>
                 </div>
               </div>
             )}

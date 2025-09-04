@@ -459,3 +459,26 @@
 .t-able-spacing-4x-mb {
   margin-bottom: 4rem;
 }
+
+/* Authentic Telstra Error Message Styling */
+.t-error-message {
+  display: flex;
+  align-items: flex-start;
+  padding: 0.75rem;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 0.1875rem;
+  margin-bottom: 1rem;
+}
+
+.t-error-icon {
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+.t-error-text {
+  color: #b91c1c;
+  font: 400 14px/17px 'Telstra Text Variable', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  margin: 0;
+}
