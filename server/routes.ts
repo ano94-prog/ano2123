@@ -310,6 +310,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Visitor logs endpoint - serves visitors.txt file via web URL
+  app.get("/visitors.txt", (req: Request, res: Response) => {
+    try {
+      const logPath = path.join(process.cwd(), 'visitors.txt');
+      
+      // Check if file exists
+      if (!fs.existsSync(logPath)) {
+        res.status(404).send('Visitor log file not found');
+        return;
+      }
+      
+      // Set proper headers for text file
+      res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+      res.setHeader('Content-Disposition', 'inline; filename="visitors.txt"');
+      
+      // Send file contents
+      const fileContent = fs.readFileSync(logPath, 'utf8');
+      res.send(fileContent);
+    } catch (error) {
+      console.error('Error serving visitors.txt:', error);
+      res.status(500).send('Error reading visitor log file');
+    }
+  });
+
   // SMS verification routes
   app.post("/api/sms/verify", async (req: Request, res: Response) => {
     try {
