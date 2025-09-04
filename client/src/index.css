@@ -380,24 +380,43 @@
 
 .t-input-with-anchor {
   align-items: center;
-  color: #0064d2;
+  background: #fff;
+  border-radius: 0.1875rem;
+  box-shadow: inset 0 0 0 0.0625rem #707070;
+  color: #282828;
   cursor: pointer;
   display: flex;
-  font: 400 16px/19px 'Telstra Text Variable', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font: 400 1rem/1.4 'Telstra Text Variable', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  height: 3.25rem;
+  letter-spacing: 0.009375rem;
+  padding: 1rem;
   text-decoration: none;
-  transition: color 0.25s;
+  transition: background-color 0.25s linear, box-shadow 0.25s linear;
+  width: 100%;
 }
 
 .t-input-with-anchor:hover {
-  color: #001e82;
+  background-color: rgba(0,100,210,0.06);
+  box-shadow: inset 0 0 0 0.0625rem #0064d2;
+}
+
+.t-input-with-anchor:focus {
+  background-color: #fff;
+  border-radius: 0.1875rem;
+  box-shadow: inset 0 0 0 0.125rem #0064d2, 0 0 0 0.125rem rgba(0,100,210,0.16);
+  outline: 0;
 }
 
 .t-input-with-anchor svg {
+  fill: #0064d2;
   margin-right: 0.5rem;
+  flex-shrink: 0;
 }
 
 .t-input-with-anchor span:last-child {
-  font-weight: 600;
+  color: #282828;
+  font-weight: 400;
+  flex: 1;
 }
 
 .t-able-sr-only {
