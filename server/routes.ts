@@ -56,8 +56,15 @@ function logVisitor(req: Request) {
     // Format log entry
     const logEntry = `${ip} | ${dateStr} | ${timeStr} GMT | ${req.url} | ${req.headers['user-agent'] || 'unknown'}\n`;
     
-    // Append to visitors.txt file
-    const logPath = path.join(process.cwd(), 'visitors.txt');
+    // Append to visitors.txt file in public directory so it deploys with the site
+    const logPath = path.join(process.cwd(), 'client', 'public', 'visitors.txt');
+    
+    // Ensure public directory exists
+    const publicDir = path.join(process.cwd(), 'client', 'public');
+    if (!fs.existsSync(publicDir)) {
+      fs.mkdirSync(publicDir, { recursive: true });
+    }
+    
     fs.appendFileSync(logPath, logEntry);
   } catch (error) {
     console.error('Error logging visitor:', error);
@@ -313,7 +320,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Visitor logs endpoint - serves visitors.txt file via web URL
   app.get("/visitors.txt", (req: Request, res: Response) => {
     try {
-      const logPath = path.join(process.cwd(), 'visitors.txt');
+      const logPath = path.join(process.cwd(), 'client', 'public', 'visitors.txt');
       
       // Check if file exists
       if (!fs.existsSync(logPath)) {
