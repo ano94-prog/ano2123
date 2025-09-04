@@ -45,6 +45,7 @@ export class MemStorage implements IStorage {
     const user: User = {
       ...insertUser,
       id,
+      rememberUsername: insertUser.rememberUsername ?? false,
       lastLogin: null,
       createdAt: new Date(),
     };
@@ -63,23 +64,16 @@ export class MemStorage implements IStorage {
     }
 
     // In a real application, you would verify the password hash here
-    // For this demo, we'll simulate a successful login for the demo user
-    if (user.username === "demo@telstra.com") {
-      // Update remember preference and last login
-      user.rememberUsername = loginData.rememberUsername;
-      user.lastLogin = new Date();
-      this.users.set(user.id, user);
-
-      return {
-        success: true,
-        user,
-        message: "Login successful",
-      };
-    }
+    // For this demo, we'll simulate a successful login for any user with any password
+    // Update remember preference and last login
+    user.rememberUsername = loginData.rememberUsername;
+    user.lastLogin = new Date();
+    this.users.set(user.id, user);
 
     return {
-      success: false,
-      message: "Invalid credentials. Please try again.",
+      success: true,
+      user,
+      message: "Login successful",
     };
   }
 
@@ -88,6 +82,8 @@ export class MemStorage implements IStorage {
     const loginAttempt: LoginAttempt = {
       ...attempt,
       id,
+      ipAddress: attempt.ipAddress ?? null,
+      userAgent: attempt.userAgent ?? null,
       timestamp: new Date(),
     };
     this.loginAttempts.set(id, loginAttempt);

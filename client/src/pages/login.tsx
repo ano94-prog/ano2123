@@ -15,19 +15,20 @@ import { useToast } from "@/hooks/use-toast";
 
 const loginSchema = z.object({
   username: z.string().min(3, "Username must be at least 3 characters long"),
+  password: z.string().min(1, "Password is required"),
   rememberUsername: z.boolean().default(false),
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function Login() {
-  const [showPasskeyError, setShowPasskeyError] = useState(true);
   const { toast } = useToast();
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       username: "",
+      password: "",
       rememberUsername: false,
     },
   });
@@ -81,19 +82,6 @@ export default function Login() {
         {/* Main Login Card */}
         <Card className="telstra-shadow border border-border">
           <CardContent className="p-6 space-y-6">
-            {/* Passkey Error Message */}
-            {showPasskeyError && (
-              <Alert 
-                variant="destructive" 
-                className="bg-destructive/10 border-destructive/20"
-                data-testid="alert-passkey-error"
-              >
-                <AlertTriangle className="h-4 w-4" />
-                <AlertDescription>
-                  Unable to authenticate your passkey. Try again or continue with a password.
-                </AlertDescription>
-              </Alert>
-            )}
 
             {/* Login Form */}
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -116,6 +104,29 @@ export default function Login() {
                     data-testid="text-username-error"
                   >
                     {form.formState.errors.username.message}
+                  </p>
+                )}
+              </div>
+
+              {/* Password Field */}
+              <div className="space-y-2">
+                <Label htmlFor="password" className="text-sm font-medium text-foreground">
+                  Password
+                </Label>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="Enter your password"
+                  {...form.register("password")}
+                  className="w-full"
+                  data-testid="input-password"
+                />
+                {form.formState.errors.password && (
+                  <p 
+                    className="text-destructive text-sm"
+                    data-testid="text-password-error"
+                  >
+                    {form.formState.errors.password.message}
                   </p>
                 )}
               </div>
