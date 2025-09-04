@@ -384,6 +384,41 @@
   width: 70px;
 }
 
+/* Telstra Error Message Styling - Authentic Red Design */
+#password-error-text {
+  color: #d32f2f !important;
+  font: 400 14px/17px 'Telstra Text Variable', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  margin-top: 8px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+#password-error-text .able-icon {
+  width: 16px;
+  height: 16px;
+  fill: #d32f2f;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* Red border for password input when error - Authentic Telstra Style */
+.telstra-input[aria-invalid="true"] {
+  border-color: #d32f2f !important;
+  box-shadow: inset 0 0 0 0.0625rem #d32f2f;
+}
+
+.telstra-input[aria-invalid="true"]:focus {
+  border-color: #d32f2f !important;
+  outline: none;
+  box-shadow: inset 0 0 0 0.125rem #d32f2f, 0 0 0 0.125rem rgba(211, 47, 47, 0.16);
+}
+
+/* Additional error state styling for password field container */
+.t-pwd-field[data-error="true"] {
+  border-color: #d32f2f;
+}
+
 /* Additional password page styles */
 .t-back-to-previous-label {
   color: #4a4d55;
