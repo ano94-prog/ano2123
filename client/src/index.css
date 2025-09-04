@@ -149,8 +149,8 @@
   max-width: 376px;
   padding: 0 8px 62px;
   position: relative;
-  min-height: 100vh;
-  overflow: hidden;
+  flex: 1;
+  width: 100%;
 }
 
 .t-able-heading-b {
