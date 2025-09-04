@@ -1,0 +1,453 @@
+
+
+
+
+
+
+
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+		
+  <!DOCTYPE html>
+
+
+<!-- template name: html.form.username.identifier.template.html login-username-new-->
+
+
+
+<html lang="en" dir="ltr">
+
+	<head>
+  <!-- meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <!--favicon-->
+  
+
+	<link rel="icon" href="https://www.telstra.com.au/etc/designs/telstra/images/t-logo-theme-brand-refresh-favicon.png">
+	<link rel="apple-touch-icon" href="https://www.telstra.com.au/etc/designs/telstra/images/t-logo-theme-brand-refresh-apple-touch.png">
+  <!-- base -->
+  <base href="https://myid.telstra.com/identity/">
+      <!-- title -->
+  <title>Sign in with your Telstra ID</title>
+  <!-- includes -->
+  <style>
+          @import url('assets/fonts/telstra-fonts.css?v=1.1.001');
+      @import url('assets/css/min/telstra-able.min.css?v=1.1.001');
+              @import url('assets/css/min/cnsb-custom.min.css?v=1.1.001');
+                    </style>
+
+  <script>
+    let validMessages = {
+            "Required_Field":"Required field.",
+            "Required_Username_Top":"",
+            "Required_Username":"Required field. Please enter your username.",
+            "Invalid_Username_Top":"Please check the username.",
+            "Invalid_Username":"Invalid entry. Please check the username.",
+            "Required_Password_Top":"",
+            "Required_Password":"Required field. Please enter your password.",
+            "Required_NewPassword":"Required field. Please enter your new password.",
+            "Required_NewPassword_Top":"",
+            "Required_ReEnterPassword":"Required field. Please confirm new password.",
+            "Required_ReEnterPassword_Top":"",
+            "Password_Not_Match":"Passwords don't match. Please try again.",
+            "InValid_PIN":"Invalid PIN. Please check and try again.",
+            "InValid_Code":"Invalid code. Please check and try again.",
+            "InValid_Password":"Invalid entry. Password must meet the requirements listed.",
+            "InValid_Password_Special":"Invalid entry. Password must only contain the typical letters, numbers, punctuation and space characters.",
+            "InValid_Password_Space":"Invalid entry. Password can't begin or end with a space.",
+            "Required_Selection":"Required selection.",
+            "Required_Selection_Top":"",
+            "InValid_PIN_Create":"Invalid PIN. PIN must meet the requirements listed.",
+            "PINs_Not_Match":"PINs don't match. Please try again.",
+            "Email_Not_Match":"Emails don't match. Please try again.",
+        };
+
+    </script>
+
+  <script src="/identity/assets/js/common.min.js?v=1.1.001"></script>
+
+  
+ 	
+      <script src="//assets.adobedtm.com/launch-EN150fea03ccaa40d3b4a005dbafdb143c.min.js"></script>
+                    <script type="text/javascript" src="https://www.telstra.com.au/apps/liveperson/import.htm"></script>
+          <script src="/identity/assets/svg4everybody.legacy.js"></script>
+  <script>
+    var isIE = "-ms-scroll-limit" in document.documentElement.style && "-ms-ime-align" in document.documentElement.style;
+    if (isIE) {
+      svg4everybody();
+    }
+  </script>
+  </head>
+
+	<body>
+		<div>
+			<header class="t-page-header">
+			<svg width="33px" height="33px" viewBox="0 0 33 33" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-label="Telstra Logo" role="img" focusable="false">
+    <g id="Artboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Telstra_Primary-logo_C_RGB" fill-rule="nonzero">
+            <path d="M18.742504,14.0832 L17.5024033,21.3536 C17.2460517,22.6624 16.3840696,23.0144 15.6182193,23.0144 L9.88235294,23.0144 L12.3016709,9.6992 C9.88876173,8.5952 7.42137789,7.8752 5.4602884,7.8752 C3.59212634,7.8752 2.0764477,8.3808 1.0670634,9.5872 C0.3556878,10.448 0,11.5104 0,12.7712 C0,16.5568 2.98008698,21.808 8.08468757,26.0928 C12.6317235,29.8784 17.6369879,32 21.2771801,32 C23.0940719,32 24.5584802,31.4432 25.523003,30.336 C26.2792401,29.4784 26.5836576,28.3648 26.5836576,27.104 C26.5836576,23.424 23.5811398,18.2688 18.742504,14.0832 Z" id="Path" fill="#F96449"></path>
+            <path d="M8.44037537,0 C7.53032731,0 6.77409018,0.6112 6.57221332,1.568 L5.76470588,5.9552 L12.9777981,5.9552 L9.87914855,23.0112 L15.6182193,23.0112 C16.3840696,23.0112 17.2460517,22.656 17.5024033,21.3504 L20.1268025,5.9552 L25.3179217,5.9552 C26.2311742,5.9552 26.9874113,5.3504 27.1892882,4.3904 L28,0 L8.44037537,0 Z" id="Path" fill="#0D54FF"></path>
+        </g>
+    </g>
+</svg>
+	</header>
+
+											<div role="main" class="t-form-container">
+				
+								
+
+					<h1 class=" t-able-heading-b    t-able-spacing-2x-mb ">
+						 Sign in 					</h1>
+											<div class="t-able-text-bodyshort  t-able-spacing-7x-mb ">Sign in with your Telstra ID</div>
+											<script>
+		var loginUrl = window.location.href;
+					if(loginUrl.indexOf("identity/idp/SSO.saml2") != -1) {
+				if(window.location.hostname.indexOf("nonprod") != -1) {
+					loginUrl = 'https://fn1.myid-nonprod.telstra.com/identity/as/authorization.oauth2?response_type=code&client_id=webex&redirect_uri=https://webex.com&PasswordReset_UsernameVerification=true';
+				} else {
+					loginUrl = 'https://myid.telstra.com/identity/as/authorization.oauth2?response_type=code&client_id=webex&redirect_uri=https://webex.com&PasswordReset_UsernameVerification=true';
+				}
+			} else {
+				if (typeof URLSearchParams !== 'undefined') {
+					const params = new URLSearchParams(loginUrl);
+					if(params.get('login_hint')) {
+						params.delete('login_hint');
+						loginUrl = decodeURIComponent(params.toString());
+					}
+				}
+			}
+		
+		if ((window.location.pathname.indexOf("resumeSAML20/idp/startSSO.ping") == -1 && window.location.pathname.indexOf("/resume/as/authorization.ping") == -1) && window.location.pathname.indexOf("/resume/as/user_authz.ping") == -1) {
+			setCookie('t_login_page', loginUrl, 30);
+		}
+
+		var currentDomain = window.location.hostname;
+		if (!document.referrer.indexOf(currentDomain) && document.referrer !== '') {
+			setCookie('t_referrer', document.referrer);
+		}
+	</script>
+					
+
+
+
+
+
+
+
+  
+    
+    
+    
+    
+    
+    
+  
+					<form method="POST" action="/identity/as/fAVXbr39Rk/resume/as/authorization.ping" autocomplete="off">
+						<div id="passkey-error" class="t-able-message-inline-warning t-able-spacing-4x-mb t-icon--hidden">
+							<svg class="able-icon" role="img" aria-label="Warning" focusable="false">
+								<use href="./assets/able-sprites.svg?v27#Warning"></use>
+							</svg>
+							<p id="passkey-error-text"></p>
+						</div>
+
+						
+
+	<div class="t-able-text-field  t-able-spacing-2x-mb ">
+		<label for="username">Username</label>
+				<input id="username" type="text" inputmode="email" name="orgName"
+		  value="" autocomplete="username webauthn" aria-invalid="false" 
+		  aria-required="true" aria-describedby="username-error-text username-help-text " 
+		  onblur="handleOnblurEvent(event, true)">
+		<p id="username-error-text"></p>
+					<input type="hidden" name="$identifier" value="" id="modUsername">
+							<input type="hidden" name="username" value="" id="userName"/>
+			</div>
+						
+													
+					
+			
+	<div class=" t-able-spacing-2x-mb ">
+									<a class="t-able-low-emph-button  t-reset-password-link " href=" https://myid.telstra.com/forgottenUsername/?clientCode=b2c-telstracomau&amp;gotoUrl=https://myid.telstra.com/identity/as/authorization.oauth2%3fresponse_type=code%26response_mode=query%26scope=openid%2520app.telstracomau%26code_challenge=6OkFgh2Ls8lpfmJLg8keE1XIDdVxbMANVuS7ZFtsLLg%26state=25de386a95334479be73642cc0e7301a%26client_id=b2c-telstracomau%26redirect_uri=https://www.telstra.com.au/plus " onclick="loadAnalyticEvents('click', 'clickTrack', 'linkClick', 'Recover username')">
+				Recover username								</a>
+						</div>
+						
+													<div class="t-able-checkbox  t-able-spacing-3x-mb ">
+	<input name="$rememberUsername" type="checkbox" id="rememberUsername" />
+	<label for="rememberUsername"> Remember username		<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+			<path d="M9.54,14.81l8-8a1.09,1.09,0,0,1,1.54,0l0,0a1.1,1.1,0,0,1,0,1.54l-8.78,8.78s0,0,0,0a1.12,1.12,0,0,1-.79.33h0a1.15,1.15,0,0,1-.41-.08,1.08,1.08,0,0,1-.39-.25L4.86,13.31a1.13,1.13,0,0,1,.8-1.92,1.11,1.11,0,0,1,.79.33Z"/>
+		</svg>
+	</label>
+</div>
+												<input type="hidden" name="$ok" value="clicked"/>
+						<input type="hidden" name="$cancel" value=""/>
+						<input type="hidden" name="client_id" value="b2c-telstracomau"/>
+						<input type="hidden" name="$adapterIdField" id="$adapterIdField" value="signinPasskeyAdapterFed"/>
+						<input type="hidden" name="authnPassKeyResponse" value=""/>
+						<input type="hidden" name="NoPasskeyBrwFlow" value=""/>
+						<input type="hidden" name="errorMsg" value=""/>
+						<input type="hidden" name="errorName" value=""/>
+						<input type="hidden" name="passkeysupported" value="yes"/>
+						<input type="hidden" name="passkeyPageSignin" value="false"/>
+
+						
+						<div class="">
+							<button id="submit_btn" class="t-able-high-emph-button  t-able-spacing-2x-mb "  type="submit" onclick="handleSubmitBtnClk(event)">Continue</button>
+						</div>
+						
+													<p class="t-able-sub-head-line t-able-spacing-2x-mb">OR</p>
+									
+												
+			<a class="t-able-medium-emph-button t-able-spacing-7x-mb" href="https://myid.telstra.com/register/?clientCode=b2c-telstracomau&amp;gotoUrl=https://www.telstra.com.au/plus" onclick="loadAnalyticEvents('click', 'clickTrack', 'buttonClick', 'Create a Telstra ID')">
+						Create a Telstra ID
+		</a>
+												
+					</form>
+				</div>
+						
+	<footer class="t-footer">
+		<div class="t-footer-content">
+			<p class="t-footer-copyright">Copyright © 2025 Telstra</p>
+						<a class="t-footer-privacy" href="https://www.telstra.com.au/privacy/privacy-statement" target="_blank">Privacy</a>
+										<a class="t-footer-terms" href="https://www.telstra.com.au/terms-of-use" target="_blank">Terms of use</a>
+					</div>
+	</footer>
+		</div>
+				
+
+
+<script>
+    var subDivUnit = "TR";
+    	var secondCat = "";
+				secondCat = "Sign in";
+	    window.digitalData = {};
+    window.digitalData.page = {};
+
+    window.digitalData.page.pageInfo = {
+		pageName: "Sign in with your Telstra ID",
+		destinationURL: window.location.href,
+		referringURL: document.referrer,
+		sysEnv: "desktop",
+		deployEnv: "production",
+    };
+    window.digitalData.page.attributes = {
+        division : "TD",
+        subDivision : "TR",
+        subDivisionUnit : subDivUnit
+    };
+
+	
+    window.digitalData.page.category = {
+        primaryCategory : "identity",
+        secondaryCategory : secondCat,
+        tertiaryCategory: "",
+        pageType : "service"
+    };
+
+            window.digitalData.page.pageInfo.pageName = "sign in - username";
+              window.digitalData.user = [];
+      window.digitalData.user = [{
+								"profile": [
+											{
+												"profileInfo": {
+													"loggedInUsing": "Telstra ID:b2c-telstracomau"
+												}
+											}
+										   ]
+							  }];
+        function updateProfileInfo(data){
+      if(window.digitalData?.user?.length){
+        window.digitalData.user[0].profile[0].profileInfo = {...window.digitalData.user[0].profile[0].profileInfo,...data}
+      }
+    }
+
+    function loadAnalyticEvents(eventAction, eventType, eventCategory, eventName) {
+        let eventData = null;
+        eventData = {
+                     "eventInfo": {
+                        "eventAction": eventAction,
+                        "eventType": eventType,
+                        "eventCategory": eventCategory,
+                        "eventName": eventName
+                     },
+                     "attributes": {}
+                    }
+
+        const analytics = window.digitalData;
+        if (!("event" in analytics))
+            analytics.event = [];
+
+        if (eventData) {
+            analytics.event.push(eventData);
+        } else {
+            analytics.event.push(
+                {
+                    "eventInfo": {
+                        "eventAction": "error"
+                    }
+                }
+            )
+        }
+        return (window.digitalData = analytics);
+    }
+
+</script>
+<script type="text/javascript">
+  _satellite.pageBottom();
+</script>
+		<script src="/identity/assets/js/common.min.js?v=1.1.001"></script>
+		<script>
+			const public_key_aval = !!window.PublicKeyCredential;
+			let verfiy_cond_med_aval = false;
+			let verfiy_paltform_aval = false;
+			let errMsg;
+			let abortController = new AbortController();
+			passkeySupportCheck().then(res => {
+				if(res != "plfm") {
+					document.forms[0]['passkeysupported'].value = "no";
+				}
+			});
+
+						
+													function updateUrlWithParms(frm, name, val) {
+				const action = new URL(frm.action);
+				action.searchParams.set(name, val);
+				frm.action = action.href;
+			}
+			async function verifyPlatformAvailabilityAndConditionalMedAvailability() {
+				const formObject = document.forms[0];
+				
+				if(window.PublicKeyCredential?.isUserVerifyingPlatformAuthenticatorAvailable){
+					verfiy_paltform_aval = await window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
+				}
+
+				if(window.PublicKeyCredential?.isConditionalMediationAvailable){
+					verfiy_cond_med_aval = await window.PublicKeyCredential.isConditionalMediationAvailable();
+				}
+				updateUrlWithParms(formObject, "pkc", public_key_aval);
+				updateUrlWithParms(formObject, "uvpa", verfiy_paltform_aval);
+				updateUrlWithParms(formObject, "cm", verfiy_cond_med_aval);
+			}
+
+			async function handleSubmitBtnClk(event) {
+				event.preventDefault();
+				verifyPlatformAvailabilityAndConditionalMedAvailability();
+				loadAnalyticEvents('click', 'clickTrack', 'buttonClick', 'Continue');
+
+				let username = document.getElementById('username').value.trim();
+				document.forms[0]['userName'].value = username;
+
+				let ariaDescId = "username-error-text";
+				if(validateField("username", ariaDescId, true)) {
+					setRequiredCookies();
+					document.getElementById("submit_btn")?.setAttribute('disabled', 'true');
+					document.forms[0].submit();
+				}
+			}
+
+							setRememberUn();
+			
+			
+			async function passkeyAutofillSignIn() {
+				loadAnalyticEvents('click', 'clickTrack', 'buttonClick', 'Sign in with Passkey');
+				
+				const abortSignal = abortController.signal;
+				let publicKeyOptions = '{"challenge":"d-PD3LSt3J-cCdOOzrcY7A","timeout":300000,"rpId":"myid.telstra.com","userVerification":"required","attestationFormats":[],"extensions":{}}';
+				let options = JSON.parse(publicKeyOptions);
+				options.challenge = base64ToArray(options.challenge);
+				let getOptions = {
+					signal: abortSignal,
+					publicKey: options,
+					mediation: "conditional",
+				}
+				navigator.credentials.get(getOptions).then(credential => {
+                    if (credential.id) {
+						updateProfileInfo({foundPasskey: true, usedPasskey: true});
+						loadAnalyticEvents('impression', 'passkey', 'foundPasskey', 'Yes');
+						loadAnalyticEvents('impression', 'passkey', 'usedPasskey', 'Yes');
+						const utf8 = new TextDecoder();
+						let postData = {
+							id: credential.id,
+							rawId: arrayToBase64(credential.rawId),
+							authenticatorAttachment: credential.authenticatorAttachment,
+							type: credential.type,
+							response: {
+								authenticatorData: arrayToBase64(credential.response.authenticatorData),
+								clientDataJSON: arrayToBase64(credential.response.clientDataJSON),
+								signature: arrayToBase64(credential.response.signature),
+								userHandle: credential?.response?.userHandle ? utf8.decode(credential.response.userHandle)  : "",
+							},
+						};
+						
+						postData = JSON.stringify(postData);
+						document.forms[0]['authnPassKeyResponse'].value = postData;
+						document.forms[0].submit();
+                    } else {
+						errMsg = "Error occured on credential sign in";
+						document.forms[0]['errorMsg'].value = "Error occured on credential sign in";
+						document.forms[0]['errorName'].value = "unExpectedError";
+                    }
+                }).catch(error => {
+					errMsg = "Unable to authenticate your passkey. Try again or continue with a password."
+					document.forms[0]['errorMsg'].value = error.message;
+					document.forms[0]['errorName'].value = error.name;
+					document.getElementById("passkey-error").classList.remove("t-icon--hidden");
+					document.getElementById('passkey-error-text').innerHTML = errMsg;
+                })
+
+			}
+			async function checkPasskeySupport(){
+				await verifyPlatformAvailabilityAndConditionalMedAvailability();
+				if (public_key_aval) {
+					document.forms[0]['NoPasskeyBrwFlow'].value = 'true';
+					if (verfiy_cond_med_aval){
+						passkeyAutofillSignIn();
+					} else {
+						console.log("Passkey conditional mediation is not available")
+					}
+				} else {
+					document.forms[0]['NoPasskeyBrwFlow'].value = 'false';
+				}
+			}
+			checkPasskeySupport();
+			document.getElementById('username').focus();
+		</script>
+	</body>
+			<script>
+    var sectionList;
+            sectionList = ["telstra", "consumer", "identity","forgot-password","dtq"];
+    
+  livePerson.init({
+    section: sectionList,
+    sourceSection: ["tcom"],
+    onlyTcomCSS: true,
+    forceButtonCss: true,
+    callBack: function () {
+      console.log("CallBack called");
+    },
+    callBackInterval: 2
+  });
+</script>
+	</html>

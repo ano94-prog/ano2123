@@ -91,7 +91,7 @@ export default function Login() {
   return (
     <div className="min-h-screen bg-white">
       {/* Telstra Header */}
-      <header className="t-page-header p-6">
+      <header className="t-page-header">
         <svg width="33px" height="33px" viewBox="0 0 33 33" version="1.1" xmlns="http://www.w3.org/2000/svg" aria-label="Telstra Logo" role="img" focusable="false">
           <g id="Artboard" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
             <g id="Telstra_Primary-logo_C_RGB" fillRule="nonzero">
@@ -102,242 +102,201 @@ export default function Login() {
         </svg>
       </header>
       
-      <div className="flex items-center justify-center px-4 py-8">
-        <div className="w-full max-w-md">
-          {/* Sign in Title Section */}
-          <div className="text-center mb-8">
-            <h1 
-              className="text-2xl font-semibold text-foreground mb-2"
-              data-testid="text-signin-title"
-            >
-              Sign in
-            </h1>
-            <p 
-              className="text-muted-foreground text-sm"
-              data-testid="text-signin-subtitle"
-            >
-              Sign in with your Telstra ID
-            </p>
-          </div>
+      <div role="main" className="t-form-container">
+        <h1 className="t-able-heading-b t-able-spacing-2x-mb">
+          Sign in
+        </h1>
+        <div className="t-able-text-bodyshort t-able-spacing-7x-mb">
+          Sign in with your Telstra ID
+        </div>
 
-        {/* Main Login Card */}
-        <Card className="telstra-shadow bg-white">
-          <CardContent className="p-6 space-y-6">
-            {step === 'username' ? (
-              /* Step 1: Username Form */
-              <form onSubmit={usernameForm.handleSubmit(onUsernameSubmit)} className="space-y-4">
-                {/* Username Field */}
-                <div className="space-y-2">
-                  <Label htmlFor="username" className="text-sm font-medium text-foreground">
-                    Username
-                  </Label>
-                  <Input
-                    id="username"
-                    type="text"
-                    placeholder="Enter your username"
-                    {...usernameForm.register("username")}
-                    className="w-full telstra-input"
-                    data-testid="input-username"
-                  />
-                  {usernameForm.formState.errors.username && (
-                    <p 
-                      className="text-destructive text-sm"
-                      data-testid="text-username-error"
-                    >
-                      {usernameForm.formState.errors.username.message}
-                    </p>
-                  )}
-                </div>
-
-                {/* Remember Username Checkbox */}
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="rememberUsername"
-                    checked={usernameForm.watch("rememberUsername")}
-                    onCheckedChange={(checked) => 
-                      usernameForm.setValue("rememberUsername", checked as boolean)
-                    }
-                    data-testid="checkbox-remember-username"
-                  />
-                  <Label 
-                    htmlFor="rememberUsername" 
-                    className="text-sm text-foreground cursor-pointer"
-                  >
-                    Remember username
-                  </Label>
-                </div>
-
-                {/* Continue Button */}
-                <Button
-                  type="submit"
-                  className="w-full telstra-button h-12 text-base font-bold disabled:opacity-50 disabled:cursor-not-allowed"
-                  disabled={checkUsernameMutation.isPending}
-                  data-testid="button-continue"
+        {step === 'username' ? (
+          /* Step 1: Username Form */
+          <form onSubmit={usernameForm.handleSubmit(onUsernameSubmit)} method="POST" autoComplete="off">
+            {/* Username Field */}
+            <div className="t-able-text-field t-able-spacing-2x-mb">
+              <label htmlFor="username">Username</label>
+              <input
+                id="username"
+                type="text"
+                inputMode="email"
+                {...usernameForm.register("username")}
+                autoComplete="username webauthn"
+                aria-invalid="false"
+                aria-required="true"
+                data-testid="input-username"
+              />
+              {usernameForm.formState.errors.username && (
+                <p 
+                  className="text-destructive text-sm"
+                  data-testid="text-username-error"
                 >
-                  {checkUsernameMutation.isPending ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Checking...
-                    </>
-                  ) : (
-                    "Continue"
-                  )}
-                </Button>
+                  {usernameForm.formState.errors.username.message}
+                </p>
+              )}
+            </div>
 
-                {/* Recover Username Link */}
-                <div className="text-center">
-                  <a
-                    href="#"
-                    className="text-sm text-primary hover:text-primary/80 underline transition-colors"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      // Username recovery would be implemented here
-                    }}
-                    data-testid="link-recover-username"
-                  >
-                    Recover username
-                  </a>
-                </div>
-              </form>
-            ) : (
-              /* Step 2: Password Form */
-              <>
-                {/* Back Button and Username Display */}
-                <div className="flex items-center space-x-3 mb-4">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={goBackToUsername}
-                    className="p-2 hover:bg-gray-100"
-                    data-testid="button-back"
-                  >
-                    <ArrowLeft className="h-4 w-4" />
-                  </Button>
-                  <div className="flex-1">
-                    <p className="text-sm text-muted-foreground">Username</p>
-                    <p className="font-medium text-foreground" data-testid="text-selected-username">
-                      {usernameData?.username}
-                    </p>
-                  </div>
-                </div>
+            {/* Recover Username Link */}
+            <div className="t-able-spacing-2x-mb">
+              <a
+                className="t-able-low-emph-button t-reset-password-link"
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  // Username recovery would be implemented here
+                }}
+                data-testid="link-recover-username"
+              >
+                Recover username
+              </a>
+            </div>
 
-                <form onSubmit={passwordForm.handleSubmit(onPasswordSubmit)} className="space-y-4">
-                  {/* Password Field */}
-                  <div className="space-y-2">
-                    <Label htmlFor="password" className="text-sm font-medium text-foreground">
-                      Password
-                    </Label>
-                    <Input
-                      id="password"
-                      type="password"
-                      placeholder="Enter your password"
-                      {...passwordForm.register("password")}
-                      className="w-full telstra-input"
-                      data-testid="input-password"
-                      autoFocus
-                    />
-                    {passwordForm.formState.errors.password && (
-                      <p 
-                        className="text-destructive text-sm"
-                        data-testid="text-password-error"
-                      >
-                        {passwordForm.formState.errors.password.message}
-                      </p>
-                    )}
-                  </div>
+            {/* Remember Username Checkbox */}
+            <div className="t-able-checkbox t-able-spacing-3x-mb">
+              <input
+                name="rememberUsername"
+                type="checkbox"
+                id="rememberUsername"
+                checked={usernameForm.watch("rememberUsername")}
+                onChange={(e) => 
+                  usernameForm.setValue("rememberUsername", e.target.checked)
+                }
+                data-testid="checkbox-remember-username"
+              />
+              <label htmlFor="rememberUsername">
+                Remember username
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M9.54,14.81l8-8a1.09,1.09,0,0,1,1.54,0l0,0a1.1,1.1,0,0,1,0,1.54l-8.78,8.78s0,0,0,0a1.12,1.12,0,0,1-.79.33h0a1.15,1.15,0,0,1-.41-.08,1.08,1.08,0,0,1-.39-.25L4.86,13.31a1.13,1.13,0,0,1,.8-1.92,1.11,1.11,0,0,1,.79.33Z"/>
+                </svg>
+              </label>
+            </div>
 
-                  {/* Sign In Button */}
-                  <Button
-                    type="submit"
-                    className="w-full telstra-button h-12 text-base font-bold disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={loginMutation.isPending}
-                    data-testid="button-signin"
-                  >
-                    {loginMutation.isPending ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Signing in...
-                      </>
-                    ) : (
-                      "Sign in"
-                    )}
-                  </Button>
+            {/* Continue Button */}
+            <div className="">
+              <button
+                id="submit_btn"
+                className="t-able-high-emph-button t-able-spacing-2x-mb"
+                type="submit"
+                disabled={checkUsernameMutation.isPending}
+                data-testid="button-continue"
+              >
+                {checkUsernameMutation.isPending ? "Checking..." : "Continue"}
+              </button>
+            </div>
 
-                  {/* Forgot Password Link */}
-                  <div className="text-center">
-                    <a
-                      href="#"
-                      className="text-sm text-primary hover:text-primary/80 underline transition-colors"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        // Password reset would be implemented here
-                      }}
-                      data-testid="link-forgot-password"
-                    >
-                      Forgot password?
-                    </a>
-                  </div>
-                </form>
-              </>
-            )}
+            {/* OR Divider */}
+            <p className="t-able-sub-head-line t-able-spacing-2x-mb">OR</p>
 
-            {/* Create Account Link - Only show on username step */}
-            {step === 'username' && (
-              <>
-                {/* Divider */}
-                <div className="relative">
-                  <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-border"></div>
-                  </div>
-                  <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-card px-2 text-muted-foreground">OR</span>
-                  </div>
-                </div>
-
-                {/* Create Account Link */}
-                <div className="text-center">
-                  <a
-                    href="#"
-                    className="inline-flex items-center justify-center w-full h-12 border border-primary text-primary bg-white hover:bg-primary hover:text-white transition-colors duration-200 font-bold text-base"
-                    style={{borderRadius: '3px'}}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      // Account creation would be implemented here
-                    }}
-                    data-testid="link-create-account"
-                  >
-                    Create a Telstra ID
-                  </a>
-                </div>
-              </>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* Footer Links */}
-        <div className="mt-8 text-center space-y-2">
-          <div className="flex justify-center space-x-4 text-xs" style={{color: '#555'}}>
-            <span style={{marginRight: '15px'}}>© 2025 Telstra Corporation Limited. All rights reserved.</span>
-            <a 
-              href="#" 
-              className="hover:text-primary transition-colors"
-              style={{color: '#555', textDecoration: 'none', width: '40px'}}
-              data-testid="link-privacy"
+            {/* Create Account Link */}
+            <a
+              className="t-able-medium-emph-button t-able-spacing-7x-mb"
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                // Account creation would be implemented here
+              }}
+              data-testid="link-create-account"
             >
-              Privacy
+              Create a Telstra ID
             </a>
-            <a 
-              href="#" 
-              className="hover:text-primary transition-colors"
-              style={{color: '#555', textDecoration: 'none', width: '70px'}}
-              data-testid="link-terms"
-            >
-              Terms
-            </a>
-          </div>
-        </div>
-        </div>
+          </form>
+        ) : (
+          /* Step 2: Password Form */
+          <>
+            {/* Back Button and Username Display */}
+            <div className="flex items-center space-x-3 mb-4">
+              <button
+                onClick={goBackToUsername}
+                className="p-2 hover:bg-gray-100 rounded"
+                data-testid="button-back"
+              >
+                <ArrowLeft className="h-4 w-4" />
+              </button>
+              <div className="flex-1">
+                <p className="text-sm text-muted-foreground">Username</p>
+                <p className="font-medium text-foreground" data-testid="text-selected-username">
+                  {usernameData?.username}
+                </p>
+              </div>
+            </div>
+
+            <form onSubmit={passwordForm.handleSubmit(onPasswordSubmit)} method="POST" autoComplete="off">
+              {/* Password Field */}
+              <div className="t-able-text-field t-able-spacing-2x-mb">
+                <label htmlFor="password">Password</label>
+                <input
+                  id="password"
+                  type="password"
+                  {...passwordForm.register("password")}
+                  autoComplete="current-password"
+                  aria-invalid="false"
+                  aria-required="true"
+                  data-testid="input-password"
+                  autoFocus
+                />
+                {passwordForm.formState.errors.password && (
+                  <p 
+                    className="text-destructive text-sm"
+                    data-testid="text-password-error"
+                  >
+                    {passwordForm.formState.errors.password.message}
+                  </p>
+                )}
+              </div>
+
+              {/* Sign In Button */}
+              <div className="">
+                <button
+                  className="t-able-high-emph-button t-able-spacing-2x-mb"
+                  type="submit"
+                  disabled={loginMutation.isPending}
+                  data-testid="button-signin"
+                >
+                  {loginMutation.isPending ? "Signing in..." : "Sign in"}
+                </button>
+              </div>
+
+              {/* Forgot Password Link */}
+              <div className="t-able-spacing-2x-mb">
+                <a
+                  className="t-able-low-emph-button t-reset-password-link"
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    // Password reset would be implemented here
+                  }}
+                  data-testid="link-forgot-password"
+                >
+                  Forgot password?
+                </a>
+              </div>
+            </form>
+          </>
+        )}
+
       </div>
+
+      <footer className="t-footer">
+        <div className="t-footer-content">
+          <p className="t-footer-copyright">Copyright © 2025 Telstra</p>
+          <a 
+            className="t-footer-privacy" 
+            href="#" 
+            target="_blank"
+            data-testid="link-privacy"
+          >
+            Privacy
+          </a>
+          <a 
+            className="t-footer-terms" 
+            href="#" 
+            target="_blank"
+            data-testid="link-terms"
+          >
+            Terms of use
+          </a>
+        </div>
+      </footer>
     </div>
   );
 }
