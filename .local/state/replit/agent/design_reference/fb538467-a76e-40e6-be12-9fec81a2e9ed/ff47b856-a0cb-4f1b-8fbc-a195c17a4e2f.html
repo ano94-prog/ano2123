@@ -1,0 +1,317 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in - Telstra ID</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                borderRadius: {
+                    lg: "var(--radius)",
+                    md: "calc(var(--radius) - 2px)",
+                    sm: "calc(var(--radius) - 4px)",
+                },
+                colors: {
+                    background: "var(--background)",
+                    foreground: "var(--foreground)",
+                    card: {
+                        DEFAULT: "var(--card)",
+                        foreground: "var(--card-foreground)",
+                    },
+                    primary: {
+                        DEFAULT: "var(--primary)",
+                        foreground: "var(--primary-foreground)",
+                    },
+                    secondary: {
+                        DEFAULT: "var(--secondary)",
+                        foreground: "var(--secondary-foreground)",
+                    },
+                    muted: {
+                        DEFAULT: "var(--muted)",
+                        foreground: "var(--muted-foreground)",
+                    },
+                    accent: {
+                        DEFAULT: "var(--accent)",
+                        foreground: "var(--accent-foreground)",
+                    },
+                    destructive: {
+                        DEFAULT: "var(--destructive)",
+                        foreground: "var(--destructive-foreground)",
+                    },
+                    border: "var(--border)",
+                    input: "var(--input)",
+                    ring: "var(--ring)",
+                    'telstra': {
+                        'dark-blue': '#004d9d',
+                        'medium-blue': '#0078c0',
+                        'light-blue': '#00b0eb',
+                        'sky-blue': '#70caf4',
+                        'pale-blue': '#bbe3f9',
+                        'navy': '#1a2e61',
+                        'dark-navy': '#131a35',
+                        'coral': '#f96449'
+                    }
+                },
+                fontFamily: {
+                    sans: ["var(--font-sans)"],
+                }
+            },
+        }
+    };
+    </script>
+    <style>
+        :root {
+            --background: hsl(0 0% 100%);
+            --foreground: hsl(222 84% 14%);
+            --card: hsl(0 0% 100%);
+            --card-foreground: hsl(222 84% 14%);
+            --primary: hsl(210 100% 31%);
+            --primary-foreground: hsl(0 0% 100%);
+            --secondary: hsl(210 100% 38%);
+            --secondary-foreground: hsl(0 0% 100%);
+            --muted: hsl(210 40% 96%);
+            --muted-foreground: hsl(215 16% 47%);
+            --accent: hsl(199 100% 47%);
+            --accent-foreground: hsl(0 0% 100%);
+            --destructive: hsl(10 91% 64%);
+            --destructive-foreground: hsl(0 0% 100%);
+            --border: hsl(214 32% 91%);
+            --input: hsl(214 32% 91%);
+            --ring: hsl(210 100% 31%);
+            --radius: 8px;
+            --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        .telstra-shadow {
+            box-shadow: 0 1px 3px rgba(0, 77, 157, 0.1), 0 1px 2px rgba(0, 77, 157, 0.06);
+        }
+
+        .telstra-gradient {
+            background: linear-gradient(135deg, #004d9d 0%, #0078c0 100%);
+        }
+
+        .loading-spinner {
+            display: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid transparent;
+            border-top: 2px solid currentColor;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-background font-sans antialiased">
+    <!-- @COMPONENT: TelstraLoginPage [Main login container] -->
+    <div class="min-h-screen bg-gradient-to-br from-telstra-pale-blue to-white flex items-center justify-center px-4 py-8">
+        <!-- @COMPONENT: LoginCard [Central login form card] -->
+        <div class="w-full max-w-md">
+            <!-- Telstra Logo Section -->
+            <div class="text-center mb-8">
+                <!-- @COMPONENT: TelstraLogo [Brand logo] -->
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full telstra-gradient mb-4">
+                    <span class="text-2xl font-bold text-white">T</span>
+                </div>
+                <h1 class="text-2xl font-semibold text-telstra-dark-navy mb-2" data-mock="true">Sign in</h1>
+                <p class="text-muted-foreground text-sm" data-mock="true">Sign in with your Telstra ID</p>
+            </div>
+
+            <!-- Main Login Card -->
+            <div class="bg-card rounded-lg telstra-shadow border border-border p-6 space-y-6">
+                <!-- Passkey Error Message -->
+                <!-- @COMPONENT: ErrorAlert [Passkey authentication error] -->
+                <div class="bg-destructive/10 border border-destructive/20 rounded-md p-3" data-mock="true">
+                    <div class="flex items-start">
+                        <div class="text-destructive text-sm">
+                            <svg class="w-4 h-4 mt-0.5 mr-2 inline-block" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                            </svg>
+                            Unable to authenticate your passkey. Try again or continue with a password.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Login Form -->
+                <!-- @COMPONENT: LoginForm [Main authentication form] -->
+                <form id="loginForm" class="space-y-4" data-implementation="Handle form submission with validation">
+                    <!-- @STATE: username:string = '', rememberUsername:boolean = false, isLoading:boolean = false -->
+                    
+                    <!-- Username Field -->
+                    <div class="space-y-2">
+                        <label for="username" class="text-sm font-medium text-foreground">Username</label>
+                        <input 
+                            type="text" 
+                            id="username" 
+                            name="username"
+                            class="w-full px-3 py-2 border border-input rounded-md bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
+                            placeholder="Enter your username"
+                            required
+                            data-bind="username"
+                            data-implementation="Add username validation"
+                        />
+                        <!-- Error message container -->
+                        <div id="usernameError" class="text-destructive text-sm hidden" data-mock="true">
+                            Please enter a valid username
+                        </div>
+                    </div>
+
+                    <!-- Remember Username Checkbox -->
+                    <div class="flex items-center space-x-2">
+                        <input 
+                            type="checkbox" 
+                            id="rememberUsername" 
+                            name="rememberUsername"
+                            class="h-4 w-4 text-primary border-border rounded focus:ring-2 focus:ring-ring"
+                            data-bind="rememberUsername"
+                        />
+                        <label for="rememberUsername" class="text-sm text-foreground cursor-pointer">
+                            Remember username
+                        </label>
+                    </div>
+
+                    <!-- Continue Button -->
+                    <button 
+                        type="submit" 
+                        id="continueBtn"
+                        class="w-full telstra-gradient text-white py-2.5 px-4 rounded-md font-medium hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                        data-event="click:handleContinue"
+                        data-implementation="Should validate form before submission"
+                    >
+                        <span id="continueText">Continue</span>
+                        <div class="loading-spinner inline-block ml-2"></div>
+                    </button>
+
+                    <!-- Recover Username Link -->
+                    <div class="text-center">
+                        <a 
+                            href="#" 
+                            class="text-sm text-primary hover:text-primary/80 underline transition-colors"
+                            data-implementation="Link to username recovery flow"
+                            data-mock="true"
+                        >
+                            Recover username
+                        </a>
+                    </div>
+                </form>
+
+                <!-- Divider -->
+                <div class="relative">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-border"></div>
+                    </div>
+                    <div class="relative flex justify-center text-xs uppercase">
+                        <span class="bg-card px-2 text-muted-foreground">OR</span>
+                    </div>
+                </div>
+
+                <!-- Create Account Link -->
+                <div class="text-center">
+                    <a 
+                        href="#" 
+                        class="inline-flex items-center justify-center w-full py-2.5 px-4 border border-primary text-primary rounded-md hover:bg-primary hover:text-white transition-colors duration-200 font-medium"
+                        data-implementation="Link to registration flow"
+                        data-mock="true"
+                    >
+                        Create a Telstra ID
+                    </a>
+                </div>
+            </div>
+
+            <!-- Footer Links -->
+            <div class="mt-8 text-center space-y-2">
+                <div class="flex justify-center space-x-6 text-sm text-muted-foreground">
+                    <a href="#" class="hover:text-foreground transition-colors" data-mock="true">Privacy Policy</a>
+                    <a href="#" class="hover:text-foreground transition-colors" data-mock="true">Terms of Service</a>
+                    <a href="#" class="hover:text-foreground transition-colors" data-mock="true">Help</a>
+                </div>
+                <p class="text-xs text-muted-foreground" data-mock="true">
+                    © 2024 Telstra Corporation Limited. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: TelstraLoginPage -->
+
+    <script>
+        // TODO: Implement actual authentication logic, API calls, and state management
+        (function() {
+            const form = document.getElementById('loginForm');
+            const usernameInput = document.getElementById('username');
+            const continueBtn = document.getElementById('continueBtn');
+            const continueText = document.getElementById('continueText');
+            const loadingSpinner = continueBtn.querySelector('.loading-spinner');
+            const usernameError = document.getElementById('usernameError');
+
+            // Form validation
+            function validateUsername(username) {
+                return username.trim().length >= 3;
+            }
+
+            function showError(message) {
+                usernameError.textContent = message;
+                usernameError.classList.remove('hidden');
+                usernameInput.classList.add('border-destructive');
+            }
+
+            function hideError() {
+                usernameError.classList.add('hidden');
+                usernameInput.classList.remove('border-destructive');
+            }
+
+            // Form submission handler
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const username = usernameInput.value.trim();
+                
+                // Reset previous errors
+                hideError();
+                
+                // Validate username
+                if (!validateUsername(username)) {
+                    showError('Please enter a valid username (minimum 3 characters)');
+                    return;
+                }
+                
+                // Show loading state
+                continueBtn.disabled = true;
+                continueText.textContent = 'Signing in...';
+                loadingSpinner.style.display = 'inline-block';
+                
+                // Simulate API call
+                setTimeout(function() {
+                    // Reset button state
+                    continueBtn.disabled = false;
+                    continueText.textContent = 'Continue';
+                    loadingSpinner.style.display = 'none';
+                    
+                    // TODO: Implement actual authentication
+                    console.log('Authentication would happen here with username:', username);
+                    alert('Demo: Authentication flow would continue here');
+                }, 2000);
+            });
+
+            // Real-time username validation
+            usernameInput.addEventListener('input', function() {
+                if (usernameInput.value.trim() && !usernameError.classList.contains('hidden')) {
+                    hideError();
+                }
+            });
+
+            // Enhanced accessibility
+            usernameInput.addEventListener('blur', function() {
+                const username = usernameInput.value.trim();
+                if (username && !validateUsername(username)) {
+                    showError('Username must be at least 3 characters long');
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
