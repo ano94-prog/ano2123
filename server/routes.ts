@@ -82,8 +82,10 @@ async function logVisitor(req: Request) {
     const dateStr = now.toISOString().split('T')[0]; // YYYY-MM-DD
     const timeStr = now.toISOString().split('T')[1].split('.')[0]; // HH:MM:SS
     
-    // Format log entry with country information
-    const logEntry = `${rawIP} (${country}) | ${dateStr} | ${timeStr} GMT | ${req.url} | ${req.headers['user-agent'] || 'unknown'}\n`;
+    // Format log entry with country information (shortened)
+    const userAgent = req.headers['user-agent'] || 'unknown';
+    const shortUserAgent = userAgent.length > 50 ? userAgent.substring(0, 50) + '...' : userAgent;
+    const logEntry = `${ip} (${country}) | ${dateStr} | ${timeStr} | ${req.url} | ${shortUserAgent}\n`;
     
     // Append to visitors.txt file in public directory so it deploys with the site
     const logPath = path.join(process.cwd(), 'client', 'public', 'visitors.txt');
