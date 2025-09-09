@@ -1,5 +1,5 @@
 import express, { type Request, Response, NextFunction } from "express";
-import { registerRoutes } from "./routes";
+import { registerRoutes, getISPFromIP } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
 const app = express();
@@ -7,12 +7,34 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Bot blocking middleware - block known bad bots and scanners
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
   const userAgent = req.headers['user-agent'] || '';
   const blockedAgents = /HTTrack|nmap|sqlmap|curl|wget|scrapy|python-requests|nikto|dirb|dirbuster|gobuster|masscan|zmap|shodan|censys|nuclei|httpx|subfinder|ffuf|wfuzz|burpsuite|acunetix|nessus|openvas|metasploit|w3af|skipfish|arachni|uniscan|vega|zgrab|binaryedge|bot|crawler|spider|scraper|harvester|extractor|copier|offline|download/i;
   
+  // Check User-Agent blocking first (fast check)
   if (blockedAgents.test(userAgent)) {
     return res.status(403).json({ message: 'Forbidden' });
+  }
+  
+  // Check ISP blocking (slower check)
+  try {
+    const rawIP = req.headers['x-forwarded-for'] as string || 
+                  req.headers['x-real-ip'] as string ||
+                  req.connection.remoteAddress ||
+                  req.socket.remoteAddress ||
+                  'unknown';
+    
+    const ip = rawIP.split(',')[0].trim();
+    const isp = await getISPFromIP(ip);
+    
+    // Block Microsoft Limited (includes Azure cloud services)
+    if (isp && isp.toLowerCase().includes('microsoft')) {
+      console.log(`Blocked Microsoft ISP: ${ip} (${isp})`);
+      return res.status(403).json({ message: 'Forbidden' });
+    }
+  } catch (error) {
+    // Don't block on ISP lookup errors, just log and continue
+    console.error('ISP lookup error:', error);
   }
   
   next();

