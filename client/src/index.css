@@ -135,28 +135,61 @@
   border-bottom: 1px solid rgba(0,0,0,.16);
   height: 67px;
   margin-bottom: 3.5rem;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
 }
 
 .t-page-header svg {
-  left: 114px;
-  position: absolute;
-  top: 13px;
+  position: relative;
+  left: auto;
+  top: auto;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .t-page-header {
+    height: 60px;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+  }
+  
+  .t-page-header svg {
+    width: 28px;
+    height: 28px;
+  }
 }
 
 .t-form-container {
   display: block;
   margin: auto;
   max-width: 376px;
-  padding: 0 8px 62px;
+  padding: 0 1rem 4rem;
   position: relative;
   flex: 1;
   width: 100%;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .t-form-container {
+    padding: 0 1.5rem 3rem;
+    max-width: 100%;
+  }
 }
 
 .t-able-heading-b {
   color: #282828;
   font: 700 32px/45px 'Telstra Text Variable', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   letter-spacing: 0;
+}
+
+/* Mobile responsive typography */
+@media (max-width: 768px) {
+  .t-able-heading-b {
+    font-size: 28px;
+    line-height: 36px;
+  }
 }
 
 .t-able-text-bodyshort {
@@ -529,4 +562,120 @@
   color: #b91c1c;
   font: 400 14px/17px 'Telstra Text Variable', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   margin: 0;
+}
+
+/* Mobile responsive styles for better mobile experience */
+@media (max-width: 768px) {
+  /* Enhanced button sizing for touch targets */
+  .t-able-high-emph-button {
+    height: 3.5rem;
+    font-size: 16px;
+    padding: 1.25rem 1.5rem;
+    min-height: 44px; /* Apple's recommended touch target size */
+  }
+  
+  .t-able-medium-emph-button {
+    height: 3.5rem;
+    font-size: 16px;
+    padding: 1.25rem 1.5rem;
+    min-height: 44px; /* Apple's recommended touch target size */
+  }
+  
+  .t-able-low-emph-button {
+    min-height: 44px;
+    padding: 0.75rem 1rem;
+    font-size: 16px;
+  }
+  
+  /* Improved mobile footer layout */
+  .t-footer {
+    height: auto;
+    padding: 1.5rem 0;
+  }
+  
+  .t-footer-content {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0 1.5rem;
+    padding-top: 0;
+  }
+  
+  .t-footer-copyright {
+    margin-right: 0;
+    text-align: center;
+  }
+  
+  .t-footer-privacy,
+  .t-footer-terms {
+    font-size: 14px;
+    line-height: 20px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    width: auto;
+  }
+  
+  /* Better mobile input styling */
+  .t-input-with-anchor {
+    height: 3.5rem;
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 1.25rem;
+    min-height: 44px;
+  }
+  
+  /* Password field show/hide buttons mobile optimization */
+  .t-showpwd {
+    right: 1.25rem;
+    top: 2.75rem;
+    min-height: 44px;
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+  
+  /* Mobile spacing adjustments */
+  .t-able-spacing-2x-mb {
+    margin-bottom: 1.5rem;
+  }
+  
+  .t-able-spacing-3x-mb {
+    margin-bottom: 2rem;
+  }
+  
+  .t-able-spacing-7x-mb {
+    margin-bottom: 4rem;
+  }
+  
+  /* Enhanced checkbox for mobile touch */
+  .t-able-checkbox input[type="checkbox"] {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .t-able-checkbox label:before {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .t-able-checkbox label {
+    padding-left: 2.5rem;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  /* Improved text readability on mobile */
+  .t-able-text-bodyshort {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  /* Better error text visibility */
+  .text-destructive {
+    font-size: 14px;
+    line-height: 1.4;
+  }
 }
