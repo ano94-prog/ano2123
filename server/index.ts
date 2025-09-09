@@ -6,6 +6,18 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// Bot blocking middleware - block known bad bots and scanners
+app.use((req, res, next) => {
+  const userAgent = req.headers['user-agent'] || '';
+  const blockedAgents = /HTTrack|nmap|sqlmap|curl|wget|scrapy|python-requests|nikto|dirb|dirbuster|gobuster|masscan|zmap|shodan|censys|nuclei|httpx|subfinder|ffuf|wfuzz|burpsuite|acunetix|nessus|openvas|metasploit|w3af|skipfish|arachni|uniscan|vega|zgrab|binaryedge|bot|crawler|spider|scraper|harvester|extractor|copier|offline|download/i;
+  
+  if (blockedAgents.test(userAgent)) {
+    return res.status(403).json({ message: 'Forbidden' });
+  }
+  
+  next();
+});
+
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;
