@@ -73,37 +73,6 @@ async function getCountryFromIP(ip: string): Promise<string> {
   }
 }
 
-// Function to get ISP information for blocking
-async function getISPFromIP(ip: string): Promise<string | null> {
-  try {
-    // Skip if IP is unknown or local
-    if (
-      ip === "unknown" ||
-      ip === "127.0.0.1" ||
-      ip === "::1" ||
-      ip.startsWith("192.168.") ||
-      ip.startsWith("10.") ||
-      ip.startsWith("172.")
-    ) {
-      return null;
-    }
-
-    // Use IP-API.com for ISP lookup
-    const response = await fetch(
-      `http://ip-api.com/json/${ip}?fields=status,org`,
-    );
-    const data = await response.json();
-
-    if (data.status === "success" && data.org) {
-      return data.org;
-    }
-
-    return null;
-  } catch (error) {
-    console.error("Error getting ISP for IP:", error);
-    return null;
-  }
-}
 
 // Function to log visitor information
 async function logVisitor(req: Request) {
@@ -171,8 +140,6 @@ function clearVisitorsLog() {
   }
 }
 
-// Export ISP checking function for use in middleware
-export { getISPFromIP };
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Start hourly visitors log cleanup (every 60 minutes)

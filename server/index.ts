@@ -1,5 +1,5 @@
 import express, { type Request, Response, NextFunction } from "express";
-import { registerRoutes, getISPFromIP } from "./routes";
+import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
 const app = express();
@@ -15,27 +15,6 @@ app.use((req, res, next) => {
   if (blockedAgents.test(userAgent)) {
     return res.status(403).json({ message: 'Forbidden' });
   }
-  
-  // Do ISP check in background without blocking the request
-  const rawIP = req.headers['x-forwarded-for'] as string || 
-                req.headers['x-real-ip'] as string ||
-                req.connection.remoteAddress ||
-                req.socket.remoteAddress ||
-                'unknown';
-  
-  const ip = rawIP.split(',')[0].trim();
-  
-  // Non-blocking ISP check with timeout
-  Promise.race([
-    getISPFromIP(ip),
-    new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 2000))
-  ]).then((isp) => {
-    if (isp && typeof isp === 'string' && isp.toLowerCase().includes('microsoft')) {
-      console.log(`Detected Microsoft ISP: ${ip} (${isp}) - logged but not blocked to prevent startup issues`);
-    }
-  }).catch(() => {
-    // Silently ignore ISP lookup errors to prevent blocking requests
-  });
   
   next();
 });
