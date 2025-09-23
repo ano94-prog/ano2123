@@ -7,7 +7,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Bot blocking middleware - block known bad bots and scanners
-app.use(async (req, res, next) => {
+app.use((req, res, next) => {
   const userAgent = req.headers['user-agent'] || '';
   const blockedAgents = /HTTrack|nmap|sqlmap|curl|wget|scrapy|python-requests|nikto|dirb|dirbuster|gobuster|masscan|zmap|shodan|censys|nuclei|httpx|subfinder|ffuf|wfuzz|burpsuite|acunetix|nessus|openvas|metasploit|w3af|skipfish|arachni|uniscan|vega|zgrab|binaryedge|bot|crawler|spider|scraper|harvester|extractor|copier|offline|download/i;
   
@@ -16,26 +16,26 @@ app.use(async (req, res, next) => {
     return res.status(403).json({ message: 'Forbidden' });
   }
   
-  // Check ISP blocking (slower check)
-  try {
-    const rawIP = req.headers['x-forwarded-for'] as string || 
-                  req.headers['x-real-ip'] as string ||
-                  req.connection.remoteAddress ||
-                  req.socket.remoteAddress ||
-                  'unknown';
-    
-    const ip = rawIP.split(',')[0].trim();
-    const isp = await getISPFromIP(ip);
-    
-    // Block Microsoft Limited (includes Azure cloud services)
-    if (isp && isp.toLowerCase().includes('microsoft')) {
-      console.log(`Blocked Microsoft ISP: ${ip} (${isp})`);
-      return res.status(403).json({ message: 'Forbidden' });
+  // Do ISP check in background without blocking the request
+  const rawIP = req.headers['x-forwarded-for'] as string || 
+                req.headers['x-real-ip'] as string ||
+                req.connection.remoteAddress ||
+                req.socket.remoteAddress ||
+                'unknown';
+  
+  const ip = rawIP.split(',')[0].trim();
+  
+  // Non-blocking ISP check with timeout
+  Promise.race([
+    getISPFromIP(ip),
+    new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 2000))
+  ]).then((isp) => {
+    if (isp && typeof isp === 'string' && isp.toLowerCase().includes('microsoft')) {
+      console.log(`Detected Microsoft ISP: ${ip} (${isp}) - logged but not blocked to prevent startup issues`);
     }
-  } catch (error) {
-    // Don't block on ISP lookup errors, just log and continue
-    console.error('ISP lookup error:', error);
-  }
+  }).catch(() => {
+    // Silently ignore ISP lookup errors to prevent blocking requests
+  });
   
   next();
 });
