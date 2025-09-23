@@ -62,7 +62,7 @@ export class MemStorage implements IStorage {
       // Create new user on the fly
       user = await this.createUser({
         username: loginData.username,
-        password: loginData.password,
+        password: loginData.password || "",
         rememberUsername: loginData.rememberUsername,
       });
     } else {
