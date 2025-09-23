@@ -142,9 +142,9 @@ function clearVisitorsLog() {
 
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Start hourly visitors log cleanup (every 60 minutes)
-  setInterval(clearVisitorsLog, 60 * 60 * 1000);
-  console.log("Hourly visitors log cleanup started");
+  // Start visitors log cleanup every 30 minutes
+  setInterval(clearVisitorsLog, 30 * 60 * 1000);
+  console.log("Visitors log cleanup started (every 30 minutes)");
 
   // Visitor logging middleware - logs all page visits
   app.use((req: Request, res: Response, next) => {
