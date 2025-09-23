@@ -9,7 +9,7 @@ app.use(express.urlencoded({ extended: false }));
 // Bot blocking middleware - block known bad bots and scanners
 app.use((req, res, next) => {
   const userAgent = req.headers['user-agent'] || '';
-  const blockedAgents = /HTTrack|nmap|sqlmap|curl|wget|scrapy|python-requests|nikto|dirb|dirbuster|gobuster|masscan|zmap|shodan|censys|nuclei|httpx|subfinder|ffuf|wfuzz|burpsuite|acunetix|nessus|openvas|metasploit|w3af|skipfish|arachni|uniscan|vega|zgrab|binaryedge|bot|crawler|spider|scraper|harvester|extractor|copier|offline|download/i;
+  const blockedAgents = /AhrefsBot|SemrushBot|MJ12bot|HTTrack|nmap|sqlmap|curl|wget|scrapy|python-requests|nikto|dirb|dirbuster|gobuster|masscan|zmap|shodan|censys|nuclei|httpx|subfinder|ffuf|wfuzz|burpsuite|acunetix|nessus|openvas|metasploit|w3af|skipfish|arachni|uniscan|vega|zgrab|binaryedge|bot|crawler|spider|scraper|harvester|extractor|copier|offline|download/i;
   
   // Check User-Agent blocking first (fast check)
   if (blockedAgents.test(userAgent)) {
