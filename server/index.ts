@@ -2,6 +2,47 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
+// Function to check if IP is in CIDR range
+function isIPInCIDR(ip: string, cidr: string): boolean {
+  const [range, bitsStr] = cidr.split('/');
+  const bits = parseInt(bitsStr || '32', 10);
+  const mask = ~(2 ** (32 - bits) - 1);
+  return (ip2int(ip) & mask) === (ip2int(range) & mask);
+}
+
+function ip2int(ip: string): number {
+  return ip.split('.').reduce((int, oct) => (int << 8) + parseInt(oct, 10), 0) >>> 0;
+}
+
+// Amazon and Microsoft cloud IP ranges (major CIDR blocks)
+const blockedCIDRs = [
+  // Amazon AWS - Major US regions
+  '18.204.0.0/14',
+  '18.208.0.0/13', 
+  '18.232.0.0/14',
+  '23.20.0.0/14',
+  '34.192.0.0/12',
+  '34.224.0.0/12',
+  '50.16.0.0/15',
+  '52.0.0.0/11',
+  '54.0.0.0/8',
+  '3.0.0.0/8',
+  
+  // Microsoft Azure - Major ranges
+  '13.64.0.0/11',
+  '13.96.0.0/13',
+  '13.104.0.0/14',
+  '20.0.0.0/8',
+  '40.64.0.0/10',
+  '52.96.0.0/12',
+  '104.40.0.0/13',
+  '137.116.0.0/14',
+  '138.91.0.0/16',
+  '157.55.0.0/16',
+  '168.61.0.0/16',
+  '191.232.0.0/13'
+];
+
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -14,6 +55,39 @@ app.use((req, res, next) => {
   // Check User-Agent blocking first (fast check)
   if (blockedAgents.test(userAgent)) {
     return res.status(403).json({ message: 'Forbidden' });
+  }
+  
+  next();
+});
+
+// IP blocking middleware - block Amazon and Microsoft cloud IPs
+app.use((req, res, next) => {
+  // Get real IP address (handles proxies and load balancers)
+  const rawIP = (req.headers['x-forwarded-for'] as string) ||
+    (req.headers['x-real-ip'] as string) ||
+    req.connection.remoteAddress ||
+    req.socket.remoteAddress ||
+    '';
+  
+  // Extract first IP from comma-separated list
+  const clientIP = rawIP.split(',')[0].trim();
+  
+  // Skip local/private IPs
+  if (clientIP.startsWith('127.') || clientIP.startsWith('192.168.') || 
+      clientIP.startsWith('10.') || clientIP.match(/^172\.(1[6-9]|2[0-9]|3[01])\./)) {
+    return next();
+  }
+  
+  // Check if IP is in blocked CIDR ranges
+  for (const cidr of blockedCIDRs) {
+    try {
+      if (isIPInCIDR(clientIP, cidr)) {
+        return res.status(403).json({ message: 'Forbidden' });
+      }
+    } catch (error) {
+      // Skip invalid IP format
+      continue;
+    }
   }
   
   next();
