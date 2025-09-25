@@ -140,7 +140,7 @@ export default function Login() {
         <h1 className="t-able-heading-b t-able-spacing-2x-mb">
           Sign in
         </h1>
-        <div className="t-able-text-bodyshort t-able-spacing-7x-mb">
+        <div className="t-able-text-bodyshort t-able-spacing-2x-mb">
           Sign in with your Telstra ID
         </div>
 
